@@ -1,0 +1,29 @@
+== VoxBridge — QE-baseline experiment ==
+Reference-free QE model: Unbabel/wmt20-comet-qe-da
+Scoring the REAL OPUS-MT outputs (../real-mt-benchmark/outputs.tsv); higher = QE judges the
+translation better. NO human reference used (this is exactly the signal a QE confidence gate sees).
+
+Safety-critical commands scored: 29  (real corruptions: 4, correct: 25)
+
+The 4 real safety corruptions the verified-contradiction layer REFUSED, and their QE scores:
+  haz2   QE=-0.0992  'Watch for the overhead load.' -> 'Hãy coi chừng hành lý.'
+  loto1  QE=-0.3693  'Verify dead before work.' -> 'Đã chết trước khi làm việc.'
+  ver6   QE=-0.5842  'Lock out the breaker.' -> 'Phong tỏa khu vực.'
+  loto3  QE=-0.6375  'De-energize the circuit before opening the panel.' -> 'Bỏ phần tĩnh mạch trước khi mở tấm ván.'
+
+QE score range over the 25 CORRECT safety translations: min=-0.9346  max=0.5865
+QE score range over the 4 UNSAFE corruptions:            min=-0.6375  max=-0.0992
+
+Calibrated defer-gate threshold T = -0.9346
+  (the highest T such that a 'defer/refuse if QE < T' gate still SPEAKS every correct output)
+Of the 4 real unsafe corruptions, 4 score >= T and would be SPOKEN by that gate:
+  SPOKEN-UNSAFE  ver6   QE=-0.5842  -> 'Phong tỏa khu vực.'
+  SPOKEN-UNSAFE  haz2   QE=-0.0992  -> 'Hãy coi chừng hành lý.'
+  SPOKEN-UNSAFE  loto1  QE=-0.3693  -> 'Đã chết trước khi làm việc.'
+  SPOKEN-UNSAFE  loto3  QE=-0.6375  -> 'Bỏ phần tĩnh mạch trước khi mở tấm ván.'
+
+INTERPRETATION (as-found): a QE confidence gate must pick ONE threshold. Set it low enough to
+speak the correct instructions and it also speaks the fluent corruptions above; set it high
+enough to catch them and it refuses correct instructions too. The verified-contradiction layer
+does not face this tradeoff: it refuses ver6/haz2/loto1/loto3 on a DETECTED slot contradiction,
+not on where they fall on a fluency score. This is the empirical basis for the novelty claim.

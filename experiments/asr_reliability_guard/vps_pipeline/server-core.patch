@@ -1,0 +1,165 @@
+--- a/core/src/main/kotlin/com/voxbridge/core/pipeline/DecisionEngine.kt
++++ b/core/src/main/kotlin/com/voxbridge/core/pipeline/DecisionEngine.kt
+@@ -12,6 +12,7 @@
+ import com.voxbridge.core.model.Language
+ import com.voxbridge.core.translate.TranslationCoverage
+ import com.voxbridge.core.translate.Translator
++import java.util.concurrent.CancellationException
+
+ /**
+  * Tunable gates for the pipeline. Defaults match the design's initial thresholds and are
+@@ -24,7 +25,9 @@
+     val minAsrScore: Double = 0.60,
+     val noSpeechProbabilityMax: Double = 0.60,
+     /** Experimental: VI MT input only; enable after real-ASR semantic review. */
+-    val restoreViPunctuation: Boolean = false
++    val restoreViPunctuation: Boolean = false,
++    val tentativeOutputEnabled: Boolean = false,
++    val tentativeOutputConfig: TentativeOutputConfig = TentativeOutputConfig(),
+ )
+
+ /**
+@@ -46,10 +49,61 @@
+     private val repairer: SafetyRepairer = SafetyRepairer(),
+     private val config: DecisionConfig = DecisionConfig()
+ ) {
++    private val tentativeText = TentativeText(config.tentativeOutputConfig)
++
++    /**
++     * Attach an unverified display-only draft to an existing rejection. It never changes its
++     * reason, consults memory, repairs content, accepts output, or emits speech side effects.
++     * A supplied MT result (even blank) is reused so a rejected translation is not generated twice.
++     */
++    fun withTentativeOutput(
++        rejection: TranslationDecision.AskRepeat,
++        transcript: TranscriptResult,
++        existingTranslation: String? = null,
++        sourceTruncated: Boolean = false,
++    ): TranslationDecision.AskRepeat {
++        if (!config.tentativeOutputEnabled) return rejection
++        rejection.draft?.let { draft ->
++            return if (sourceTruncated && !draft.sourceTruncated)
++                rejection.copy(draft = draft.copy(sourceTruncated = true)) else rejection
++        }
++        val source = tentativeText.source(transcript.text) ?: return rejection
++        val originalDraft = TentativeOutput(source.text, rawSourceText = source.raw,
++            containsUnknownSpans = source.unknown, sourceTruncated = sourceTruncated || source.truncated)
++        val modelText = try {
++            existingTranslation ?: translator.translate(
++                if (config.restoreViPunctuation && transcript.sourceLanguage == Language.VI)
++                    ViPunctuationRestorer.restore(source.text) else source.text,
++                transcript.sourceLanguage, transcript.targetLanguage,
++            ).translatedText
++        } catch (cancelled: CancellationException) {
++            throw cancelled
++        } catch (_: Exception) {
++            return rejection.copy(draft = originalDraft.copy(unavailableReason = "translation_failed"))
++        }
++        if (modelText.length > config.tentativeOutputConfig.maxTranslatedCharacters) {
++            return rejection.copy(draft = originalDraft.copy(unavailableReason = "translation_too_long"))
++        }
++        val normalized = tentativeText.normalize(modelText)
++        if (normalized.text.length > config.tentativeOutputConfig.maxTranslatedCharacters) {
++            return rejection.copy(draft = originalDraft.copy(
++                containsUnknownSpans = source.unknown || normalized.unknown,
++                unavailableReason = "translation_too_long"))
++        }
++        val usable = tentativeText.hasWords(normalized.text) && !TranslationCoverage.isCollapsed(source.text, normalized.text)
++        val draft = originalDraft.copy(
++            translatedText = normalized.text.takeIf { usable },
++            containsUnknownSpans = source.unknown || normalized.unknown,
++            unavailableReason = if (usable) null else "translation_unusable",
++        )
++        return rejection.copy(draft = draft)
++    }
++
+     /**
+      * Classify capture evidence before ASR using this engine's exact [DecisionConfig]. A null
+-     * result is the only permission to invoke ASR; any non-null result is already terminal for the
+-     * capture stage. Android and host harnesses call this same method so thresholds cannot drift.
++     * result permits the accepted translation path; a non-null result keeps that path rejected.
++     * An explicitly enabled, bounded salvage pass may decode only to attach a display-only draft.
++     * Android and host harnesses call this same method so thresholds cannot drift.
+      */
+     fun preAsrDecision(
+         audio: AudioEvidence,
+@@ -71,19 +125,25 @@
+     fun decide(audio: AudioEvidence, transcript: TranscriptResult): TranslationDecision {
+         // 1-2. Shared no-speech/audio-quality gate. Android runs the same predicate before ASR;
+         // DecisionEngine repeats it defensively for direct callers and tests.
+-        preAsrDecision(audio)?.let { return it }
++        preAsrDecision(audio)?.let {
++            return if (it is TranslationDecision.AskRepeat) withTentativeOutput(it, transcript) else it
++        }
+
+         // 3. ASR reliability gate.
+-        if (transcript.isBlank) return TranslationDecision.AskRepeat("empty_transcript")
++        if (transcript.isBlank) return withTentativeOutput(
++            TranslationDecision.AskRepeat("empty_transcript"), transcript,
++        )
+         // minAsrScore is a threshold in the benchmark-CALIBRATED 0..1 score space. Comparing a
+         // raw exp(mean token log-probability) against 0.60 is dimensionally wrong and caused real
+         // speech to be rejected as "low confidence". Until a calibration mapping is installed,
+         // keep the raw value as diagnostics and rely on the independent audio/no-speech gates.
+         if (transcript.asrScoreCalibrated && transcript.asrScore < config.minAsrScore) {
+-            return TranslationDecision.AskRepeat("asr_low_confidence")
++            return withTentativeOutput(TranslationDecision.AskRepeat("asr_low_confidence"), transcript)
+         }
+         transcript.noSpeechProbability?.let {
+-            if (it > config.noSpeechProbabilityMax) return TranslationDecision.AskRepeat("likely_no_speech_hallucination")
++            if (it > config.noSpeechProbabilityMax) return withTentativeOutput(
++                TranslationDecision.AskRepeat("likely_no_speech_hallucination"), transcript,
++            )
+         }
+
+         val sourceFrame = extractor.extract(transcript.text, transcript.sourceLanguage)
+@@ -126,19 +186,25 @@
+         // A fluent prefix can still be semantically incomplete when the fixed decoder budget is
+         // exhausted. Treat that signal as terminal before safety checks or TTS can expose it.
+         if (translation.hitTokenLimit) {
+-            return TranslationDecision.AskRepeat("translation_token_limit")
++            return withTentativeOutput(
++                TranslationDecision.AskRepeat("translation_token_limit"), transcript, modelText,
++            )
+         }
+
+         // Fail closed on decoder collapse before any output branch can speak. This gate only
+         // checks blank/single-token/dominant phrase loops. Omission heuristics and retry remain
+         // diagnostic-only; use the original transcript to preserve genuine source repetition.
+         if (TranslationCoverage.isCollapsed(transcript.text, modelText)) {
+-            return TranslationDecision.AskRepeat("translation_degenerate")
++            return withTentativeOutput(
++                TranslationDecision.AskRepeat("translation_degenerate"), transcript, modelText,
++            )
+         }
+
+         val targetFrame = extractor.extract(modelText, transcript.targetLanguage)
+         if (comparator.addsSafetyMeaning(sourceFrame, targetFrame)) {
+-            return TranslationDecision.AskRepeat("translation_added_safety_signal")
++            return withTentativeOutput(
++                TranslationDecision.AskRepeat("translation_added_safety_signal"), transcript, modelText,
++            )
+         }
+
+         // 7. If the source has no safety signal, ship the neural translation as-is.
+@@ -164,7 +230,8 @@
+                 TranslationDecision.RepairedTranslation(outcome.text, modelText, comparison.violations)
+             is RepairOutcome.Rejected ->
+                 // 10. Could not repair a safety-critical loss -> ask to repeat rather than risk it.
+-                TranslationDecision.AskRepeat("safety_slot_lost:${comparison.criticalViolations.joinToString("|")}")
++                withTentativeOutput(TranslationDecision.AskRepeat(
++                    "safety_slot_lost:${comparison.criticalViolations.joinToString("|")}"), transcript, modelText)
+         }
+     }
+
+--- a/core/src/main/kotlin/com/voxbridge/core/pipeline/TranslationDecision.kt
++++ b/core/src/main/kotlin/com/voxbridge/core/pipeline/TranslationDecision.kt
+@@ -14,7 +14,7 @@
+     data object NoSpeech : TranslationDecision
+
+     /** Audio, ASR, or meaning was not reliable enough; the speaker should repeat. */
+-    data class AskRepeat(val reason: String) : TranslationDecision
++    data class AskRepeat(val reason: String, val draft: TentativeOutput? = null) : TranslationDecision
+
+     /** A high-confidence approved past translation was reused. */
+     data class MemoryTranslation(val text: String, val memoryScore: Double) : TranslationDecision

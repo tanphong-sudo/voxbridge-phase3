@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "status": "pilot_required",
+  "pilot_run_id": null,
+  "scope": null,
+  "device_id": null,
+  "release_id": null,
+  "dataset_sha256": null,
+  "model_manifest_sha256": null,
+  "config_sha256": null,
+  "input_kind": null,
+  "memory_state": null,
+  "latency_metric": null,
+  "p95_ms_max": null,
+  "sampled_peak_pss_mib_max": null,
+  "failed_turn_rate_max": null,
+  "min_measured_turns": 20,
+  "min_warmup_turns": 10,
+  "min_samples_per_group": 5,
+  "required_memory_phases": ["init", "model_load", "asr", "mt", "tts"],
+  "note": "Internal pending budget; no target measurements or frozen thresholds yet. Populate from a separate pilot before acceptance, never from best observed acceptance values."
+}

@@ -1,0 +1,11 @@
+plugins {
+    id("com.android.application") version "8.5.0" apply false
+    kotlin("android") version "1.9.24" apply false
+    kotlin("jvm") version "1.9.24" apply false
+    id("com.google.devtools.ksp") version "1.9.24-1.0.20" apply false
+}
+
+subprojects {
+    group = "com.voxbridge"
+    version = "0.1.0"
+}

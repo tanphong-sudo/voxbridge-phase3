@@ -1,0 +1,12 @@
+{
+  "status": "PROTOTYPE_UNCALIBRATED",
+  "weights": {"CRITICAL_NEGATION": 1.0, "CRITICAL_NUMBER": 1.0, "CRITICAL_QUANTITY": 1.0, "CRITICAL_ID": 1.0, "CRITICAL_GLOSSARY": 1.0, "HIGH_ACTION": 0.8, "HIGH_EQUIPMENT": 0.8, "NORMAL": 0.35, "LOW": 0.1},
+  "retry_threshold": 0.4,
+  "ask_after_retry_threshold": 0.4,
+  "protected_categories": ["CRITICAL_NEGATION", "CRITICAL_NUMBER", "CRITICAL_QUANTITY", "CRITICAL_ID", "CRITICAL_GLOSSARY", "HIGH_ACTION", "HIGH_EQUIPMENT"],
+  "personalization_categories": ["NORMAL", "HIGH_ACTION", "HIGH_EQUIPMENT"],
+  "max_personalization_bonus": 0.15,
+  "approval_prior": 2.0,
+  "max_input_characters": 50000,
+  "max_alignment_cells": 2000000
+}

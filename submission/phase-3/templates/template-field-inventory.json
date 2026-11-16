@@ -1,0 +1,845 @@
+{
+  "source_path": "submission/phase-3/templates/1V_P3_Prototype_Submission_Template.docx",
+  "source_sha256": "a557b75312ba085221452f0558900a4604f6d2f9d212f7eebe3c37ea38a2bf4c",
+  "method": "Complete body paragraphs and table rows from OOXML; paragraph bracket prompts separated; table result/evidence prompts stay in one row record. IDs are XML locators, not Word page numbers.",
+  "purpose": "Exact template field coverage for report completion; not completed evidence.",
+  "items": [
+    {
+      "id": "P3-T014-R01",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 1,
+      "label": "Team / individual participant",
+      "source_cells": [
+        "Team / individual participant",
+        "[Registered name]"
+      ],
+      "prompts": [
+        "Registered name"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T014-R02",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 2,
+      "label": "Project name",
+      "source_cells": [
+        "Project name",
+        "[Project name]"
+      ],
+      "prompts": [
+        "Project name"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T014-R03",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 3,
+      "label": "Submitted build",
+      "source_cells": [
+        "Submitted build",
+        "[Version or release ID; date]"
+      ],
+      "prompts": [
+        "Version or release ID; date"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T014-R04",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 4,
+      "label": "Demo language(s)",
+      "source_cells": [
+        "Demo language(s)",
+        "[Language pair(s) and directions actually demonstrated; at least one registered pair]"
+      ],
+      "prompts": [
+        "Language pair(s) and directions actually demonstrated; at least one registered pair"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T014-R05",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 5,
+      "label": "Test scenario",
+      "source_cells": [
+        "Test scenario",
+        "[Use context, speakers’ roles, task, and conversation flow. Prepare a scenario of about 30 minutes in line with the Brief. Link the script if separate.]"
+      ],
+      "prompts": [
+        "Use context, speakers’ roles, task, and conversation flow. Prepare a scenario of about 30 minutes in line with the Brief. Link the script if separate."
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T014-R06",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 6,
+      "label": "Test conditions",
+      "source_cells": [
+        "Test conditions",
+        "[Actual duration; quiet / background noise; microphone distance or other relevant conditions]"
+      ],
+      "prompts": [
+        "Actual duration; quiet / background noise; microphone distance or other relevant conditions"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T014-R07",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 7,
+      "label": "Actual demo device",
+      "source_cells": [
+        "Actual demo device",
+        "[Device / board model; processor or SoC; RAM; OS version; microphone and speaker setup]"
+      ],
+      "prompts": [
+        "Device / board model; processor or SoC; RAM; OS version; microphone and speaker setup"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T014-R08",
+      "section": "1. Prototype summary",
+      "kind": "table-row",
+      "source_block": 14,
+      "source_row": 8,
+      "label": "Current capability & progress",
+      "source_cells": [
+        "Current capability & progress",
+        "[What works end to end; main limitation; key technical changes or capabilities delivered since Phase 2. If direction is unchanged, say so.]"
+      ],
+      "prompts": [
+        "What works end to end; main limitation; key technical changes or capabilities delivered since Phase 2. If direction is unchanged, say so."
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P016-1",
+      "section": "2. Demo video",
+      "kind": "paragraph-field",
+      "source_block": 16,
+      "source_text": "Video link: [Accessible URL]   Duration: [mm:ss]",
+      "prompt": "Accessible URL",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P016-2",
+      "section": "2. Demo video",
+      "kind": "paragraph-field",
+      "source_block": 16,
+      "source_text": "Video link: [Accessible URL]   Duration: [mm:ss]",
+      "prompt": "mm:ss",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P018-1",
+      "section": "2. Demo video",
+      "kind": "paragraph-field",
+      "source_block": 18,
+      "source_text": "Key timestamps: [Network disconnected — mm:ss; first complete voice-to-voice exchange — mm:ss; other useful moments — mm:ss.]",
+      "prompt": "Network disconnected — mm:ss; first complete voice-to-voice exchange — mm:ss; other useful moments — mm:ss.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P021-1",
+      "section": "3.1 Files and access",
+      "kind": "paragraph-field",
+      "source_block": 21,
+      "source_text": "Offline package: [Download URL; file name; version matching Section 1]Format: [Packaged source + models / APK / executable]Public source repository: [URL and release / commit, or explain why no public source repository is supplied for an APK/executable submission.]",
+      "prompt": "Download URL; file name; version matching Section 1",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P021-2",
+      "section": "3.1 Files and access",
+      "kind": "paragraph-field",
+      "source_block": 21,
+      "source_text": "Offline package: [Download URL; file name; version matching Section 1]Format: [Packaged source + models / APK / executable]Public source repository: [URL and release / commit, or explain why no public source repository is supplied for an APK/executable submission.]",
+      "prompt": "Packaged source + models / APK / executable",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P021-3",
+      "section": "3.1 Files and access",
+      "kind": "paragraph-field",
+      "source_block": 21,
+      "source_text": "Offline package: [Download URL; file name; version matching Section 1]Format: [Packaged source + models / APK / executable]Public source repository: [URL and release / commit, or explain why no public source repository is supplied for an APK/executable submission.]",
+      "prompt": "URL and release / commit, or explain why no public source repository is supplied for an APK/executable submission.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P023-1",
+      "section": "3.1 Files and access",
+      "kind": "paragraph-field",
+      "source_block": 23,
+      "source_text": "Package contents: [Short file/folder list and purpose; model files; installer or entry point; dependency bundle; sample input; README.]",
+      "prompt": "Short file/folder list and purpose; model files; installer or entry point; dependency bundle; sample input; README.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P025-1",
+      "section": "3.2 Architecture of the demonstrated solution",
+      "kind": "paragraph-field",
+      "source_block": 25,
+      "source_text": "[Insert a compact diagram showing audio input → processing/model components → translated output. Label the device boundary, models and versions, runtime/SDK versions, and CPU/GPU/NPU execution where applicable. Adapt the diagram to your actual architecture.]",
+      "prompt": "Insert a compact diagram showing audio input → processing/model components → translated output. Label the device boundary, models and versions, runtime/SDK versions, and CPU/GPU/NPU execution where applicable. Adapt the diagram to your actual architecture.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P026-1",
+      "section": "3.2 Architecture of the demonstrated solution",
+      "kind": "paragraph-field",
+      "source_block": 26,
+      "source_text": "Implementation notes: [Briefly explain component connections, model precision/quantization, user controls, and any fallback used. All demo inference must run on-device without API/cloud calls. Distinguish any development tools, such as Qualcomm AI Hub or Device Cloud, from the submitted runtime.]",
+      "prompt": "Briefly explain component connections, model precision/quantization, user controls, and any fallback used. All demo inference must run on-device without API/cloud calls. Distinguish any development tools, such as Qualcomm AI Hub or Device Cloud, from the submitted runtime.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T029-R01",
+      "section": "3.3 Minimum requirements to run this build",
+      "kind": "table-row",
+      "source_block": 29,
+      "source_row": 1,
+      "label": "Processor / accelerator",
+      "source_cells": [
+        "Processor / accelerator",
+        "[Architecture or SoC; required CPU/GPU/NPU features; tested / estimated]"
+      ],
+      "prompts": [
+        "Architecture or SoC; required CPU/GPU/NPU features; tested / estimated"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T029-R02",
+      "section": "3.3 Minimum requirements to run this build",
+      "kind": "table-row",
+      "source_block": 29,
+      "source_row": 2,
+      "label": "Memory and storage",
+      "source_cells": [
+        "Memory and storage",
+        "[RAM; VRAM if applicable; free storage for installation and runtime; tested / estimated]"
+      ],
+      "prompts": [
+        "RAM; VRAM if applicable; free storage for installation and runtime; tested / estimated"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T029-R03",
+      "section": "3.3 Minimum requirements to run this build",
+      "kind": "table-row",
+      "source_block": 29,
+      "source_row": 3,
+      "label": "OS and software",
+      "source_cells": [
+        "OS and software",
+        "[OS/version; runtime/SDK; drivers and exact versions]"
+      ],
+      "prompts": [
+        "OS/version; runtime/SDK; drivers and exact versions"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T029-R04",
+      "section": "3.3 Minimum requirements to run this build",
+      "kind": "table-row",
+      "source_block": 29,
+      "source_row": 4,
+      "label": "Audio and peripherals",
+      "source_cells": [
+        "Audio and peripherals",
+        "[Microphone, speaker/headphones, connections, and other essential peripherals]"
+      ],
+      "prompts": [
+        "Microphone, speaker/headphones, connections, and other essential peripherals"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P032-1",
+      "section": "3.4 Install and run offline",
+      "kind": "paragraph-field",
+      "source_block": 32,
+      "source_text": "Prepare: [Obtain all files and dependencies; identify paths and permissions. List anything that must be downloaded before disconnecting.]",
+      "prompt": "Obtain all files and dependencies; identify paths and permissions. List anything that must be downloaded before disconnecting.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P033-1",
+      "section": "3.4 Install and run offline",
+      "kind": "paragraph-field",
+      "source_block": 33,
+      "source_text": "Install: [Install/load the package and models on compatible hardware using locally available files.]",
+      "prompt": "Install/load the package and models on compatible hardware using locally available files.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P034-1",
+      "section": "3.4 Install and run offline",
+      "kind": "paragraph-field",
+      "source_block": 34,
+      "source_text": "Disconnect and launch: [Disable network connections; provide the launch command or app/control sequence; describe the ready state.]",
+      "prompt": "Disable network connections; provide the launch command or app/control sequence; describe the ready state.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P035-1",
+      "section": "3.4 Install and run offline",
+      "kind": "paragraph-field",
+      "source_block": 35,
+      "source_text": "Run the scenario: [Select languages, start/stop speech input, and identify the expected translated output.]",
+      "prompt": "Select languages, start/stop speech input, and identify the expected translated output.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P036-1",
+      "section": "3.4 Install and run offline",
+      "kind": "paragraph-field",
+      "source_block": 36,
+      "source_text": "Reset or troubleshoot: [Restart procedure; common setup issue and remedy; where to find logs.]",
+      "prompt": "Restart procedure; common setup issue and remedy; where to find logs.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P039-1",
+      "section": "4. Self-recorded test results",
+      "kind": "paragraph-field",
+      "source_block": 39,
+      "source_text": "Test record: [Date; build/device from Section 1 or clearly identified differences; language directions; dataset/source and sample count; relevant test conditions.]Evidence folder: [Accessible URL containing logs/screenshots; use file names or timestamps in the table.]",
+      "prompt": "Date; build/device from Section 1 or clearly identified differences; language directions; dataset/source and sample count; relevant test conditions.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P039-2",
+      "section": "4. Self-recorded test results",
+      "kind": "paragraph-field",
+      "source_block": 39,
+      "source_text": "Test record: [Date; build/device from Section 1 or clearly identified differences; language directions; dataset/source and sample count; relevant test conditions.]Evidence folder: [Accessible URL containing logs/screenshots; use file names or timestamps in the table.]",
+      "prompt": "Accessible URL containing logs/screenshots; use file names or timestamps in the table.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T041-R01",
+      "section": "4. Self-recorded test results",
+      "kind": "table-row",
+      "source_block": 41,
+      "source_row": 1,
+      "label": "Translation quality",
+      "source_cells": [
+        "Translation quality",
+        "[Observed accuracy, clarity, and naturalness; representative input/output examples and failures. If using a score, name the metric, method, and test set.]",
+        "[File / timestamp]"
+      ],
+      "prompts": [
+        "Observed accuracy, clarity, and naturalness; representative input/output examples and failures. If using a score, name the metric, method, and test set.",
+        "File / timestamp"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T041-R02",
+      "section": "4. Self-recorded test results",
+      "kind": "table-row",
+      "source_block": 41,
+      "source_row": 2,
+      "label": "Inference / response time",
+      "source_cells": [
+        "Inference / response time",
+        "[Value in ms or s; timing start/end points; number of runs and summary statistic. Identify component timing versus end-to-end response.]",
+        "[Log / screenshot]"
+      ],
+      "prompts": [
+        "Value in ms or s; timing start/end points; number of runs and summary statistic. Identify component timing versus end-to-end response.",
+        "Log / screenshot"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T041-R03",
+      "section": "4. Self-recorded test results",
+      "kind": "table-row",
+      "source_block": 41,
+      "source_row": 3,
+      "label": "Model size",
+      "source_cells": [
+        "Model size",
+        "[MB/GB; models included; distinguish model files from total installation size.]",
+        "[File-size record]"
+      ],
+      "prompts": [
+        "MB/GB; models included; distinguish model files from total installation size.",
+        "File-size record"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T041-R04",
+      "section": "4. Self-recorded test results",
+      "kind": "table-row",
+      "source_block": 41,
+      "source_row": 4,
+      "label": "Peak memory",
+      "source_cells": [
+        "Peak memory",
+        "[Peak RAM and VRAM where applicable; MB/GB; measurement tool and run conditions.]",
+        "[Log / screenshot]"
+      ],
+      "prompts": [
+        "Peak RAM and VRAM where applicable; MB/GB; measurement tool and run conditions.",
+        "Log / screenshot"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-T041-R05",
+      "section": "4. Self-recorded test results",
+      "kind": "table-row",
+      "source_block": 41,
+      "source_row": 5,
+      "label": "Device operation & UX",
+      "source_cells": [
+        "Device operation & UX",
+        "[Whether the scenario completed; actual duration; interruptions, user controls, or recovery needed.]",
+        "[Video timestamp / log]"
+      ],
+      "prompts": [
+        "Whether the scenario completed; actual duration; interruptions, user controls, or recovery needed.",
+        "Video timestamp / log"
+      ],
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P042-1",
+      "section": "4. Self-recorded test results",
+      "kind": "paragraph-field",
+      "source_block": 42,
+      "source_text": "Known limitations: [Conditions or language directions that fail, features not yet implemented, and any differences between the demonstrated and packaged build.]",
+      "prompt": "Conditions or language directions that fail, features not yet implemented, and any differences between the demonstrated and packaged build.",
+      "status": "planning_pending",
+      "evidence": []
+    },
+    {
+      "id": "P3-P043-1",
+      "section": "4. Self-recorded test results",
+      "kind": "paragraph-field",
+      "source_block": 43,
+      "source_text": "Next development steps: [Up to three concrete improvements before field testing; how each will be checked.]",
+      "prompt": "Up to three concrete improvements before field testing; how each will be checked.",
+      "status": "planning_pending",
+      "evidence": []
+    }
+  ],
+  "all_body_blocks": [
+    {
+      "block": 9,
+      "section": "Introduction",
+      "text": "PROTOTYPE SUBMISSION"
+    },
+    {
+      "block": 10,
+      "section": "Introduction",
+      "text": "OneVoice AI Challenge 2026 · Phase 3"
+    },
+    {
+      "block": 11,
+      "section": "Introduction",
+      "text": "Participant template"
+    },
+    {
+      "block": 12,
+      "section": "Introduction",
+      "text": "Complete the bracketed fields using your submitted prototype’s actual build and results. Keep answers concise; link to existing material where useful. Summarize progress from Phase 2 without repeating the original proposal. Refer to the Phase 3 Brief for full requirements and timelines."
+    },
+    {
+      "block": 13,
+      "section": "1. Prototype summary",
+      "text": "1. Prototype summary"
+    },
+    {
+      "block": 14,
+      "row": 0,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Field",
+        "Team response"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 1,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Team / individual participant",
+        "[Registered name]"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 2,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Project name",
+        "[Project name]"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 3,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Submitted build",
+        "[Version or release ID; date]"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 4,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Demo language(s)",
+        "[Language pair(s) and directions actually demonstrated; at least one registered pair]"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 5,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Test scenario",
+        "[Use context, speakers’ roles, task, and conversation flow. Prepare a scenario of about 30 minutes in line with the Brief. Link the script if separate.]"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 6,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Test conditions",
+        "[Actual duration; quiet / background noise; microphone distance or other relevant conditions]"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 7,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Actual demo device",
+        "[Device / board model; processor or SoC; RAM; OS version; microphone and speaker setup]"
+      ]
+    },
+    {
+      "block": 14,
+      "row": 8,
+      "section": "1. Prototype summary",
+      "cells": [
+        "Current capability & progress",
+        "[What works end to end; main limitation; key technical changes or capabilities delivered since Phase 2. If direction is unchanged, say so.]"
+      ]
+    },
+    {
+      "block": 15,
+      "section": "2. Demo video",
+      "text": "2. Demo video"
+    },
+    {
+      "block": 16,
+      "section": "2. Demo video",
+      "text": "Video link: [Accessible URL]   Duration: [mm:ss]"
+    },
+    {
+      "block": 17,
+      "section": "2. Demo video",
+      "text": "Record the actual device running the prepared scenario from voice input to translated output. Show network connections being disabled immediately before the demo. Keep the recording uncut, with the screen or logs readable so judges can follow actual processing time."
+    },
+    {
+      "block": 18,
+      "section": "2. Demo video",
+      "text": "Key timestamps: [Network disconnected — mm:ss; first complete voice-to-voice exchange — mm:ss; other useful moments — mm:ss.]"
+    },
+    {
+      "block": 19,
+      "section": "3. Solution package",
+      "text": "3. Solution package"
+    },
+    {
+      "block": 20,
+      "section": "3.1 Files and access",
+      "text": "3.1 Files and access"
+    },
+    {
+      "block": 21,
+      "section": "3.1 Files and access",
+      "text": "Offline package: [Download URL; file name; version matching Section 1]Format: [Packaged source + models / APK / executable]Public source repository: [URL and release / commit, or explain why no public source repository is supplied for an APK/executable submission.]"
+    },
+    {
+      "block": 22,
+      "section": "3.1 Files and access",
+      "text": "Include the models, configurations, dependencies, and launch files needed for offline installation and operation. For source packages, include requirements or a Dockerfile and a run script. List any separately supplied files and where they belong."
+    },
+    {
+      "block": 23,
+      "section": "3.1 Files and access",
+      "text": "Package contents: [Short file/folder list and purpose; model files; installer or entry point; dependency bundle; sample input; README.]"
+    },
+    {
+      "block": 24,
+      "section": "3.2 Architecture of the demonstrated solution",
+      "text": "3.2 Architecture of the demonstrated solution"
+    },
+    {
+      "block": 25,
+      "section": "3.2 Architecture of the demonstrated solution",
+      "text": "[Insert a compact diagram showing audio input → processing/model components → translated output. Label the device boundary, models and versions, runtime/SDK versions, and CPU/GPU/NPU execution where applicable. Adapt the diagram to your actual architecture.]"
+    },
+    {
+      "block": 26,
+      "section": "3.2 Architecture of the demonstrated solution",
+      "text": "Implementation notes: [Briefly explain component connections, model precision/quantization, user controls, and any fallback used. All demo inference must run on-device without API/cloud calls. Distinguish any development tools, such as Qualcomm AI Hub or Device Cloud, from the submitted runtime.]"
+    },
+    {
+      "block": 27,
+      "section": "3.3 Minimum requirements to run this build",
+      "text": "3.3 Minimum requirements to run this build"
+    },
+    {
+      "block": 28,
+      "section": "3.3 Minimum requirements to run this build",
+      "text": "State supported requirements, separately from the actual test device in Section 1. Label a minimum as tested or estimated; do not imply untested compatibility."
+    },
+    {
+      "block": 29,
+      "row": 0,
+      "section": "3.3 Minimum requirements to run this build",
+      "cells": [
+        "Component",
+        "Minimum requirement / compatibility"
+      ]
+    },
+    {
+      "block": 29,
+      "row": 1,
+      "section": "3.3 Minimum requirements to run this build",
+      "cells": [
+        "Processor / accelerator",
+        "[Architecture or SoC; required CPU/GPU/NPU features; tested / estimated]"
+      ]
+    },
+    {
+      "block": 29,
+      "row": 2,
+      "section": "3.3 Minimum requirements to run this build",
+      "cells": [
+        "Memory and storage",
+        "[RAM; VRAM if applicable; free storage for installation and runtime; tested / estimated]"
+      ]
+    },
+    {
+      "block": 29,
+      "row": 3,
+      "section": "3.3 Minimum requirements to run this build",
+      "cells": [
+        "OS and software",
+        "[OS/version; runtime/SDK; drivers and exact versions]"
+      ]
+    },
+    {
+      "block": 29,
+      "row": 4,
+      "section": "3.3 Minimum requirements to run this build",
+      "cells": [
+        "Audio and peripherals",
+        "[Microphone, speaker/headphones, connections, and other essential peripherals]"
+      ]
+    },
+    {
+      "block": 30,
+      "section": "3.4 Install and run offline",
+      "text": "3.4 Install and run offline"
+    },
+    {
+      "block": 31,
+      "section": "3.4 Install and run offline",
+      "text": "Replace each prompt with actionable steps, including exact commands or screen actions where needed. Judges should be able to launch the demo through the provided app, CLI, or physical controls without editing source code."
+    },
+    {
+      "block": 32,
+      "section": "3.4 Install and run offline",
+      "text": "Prepare: [Obtain all files and dependencies; identify paths and permissions. List anything that must be downloaded before disconnecting.]"
+    },
+    {
+      "block": 33,
+      "section": "3.4 Install and run offline",
+      "text": "Install: [Install/load the package and models on compatible hardware using locally available files.]"
+    },
+    {
+      "block": 34,
+      "section": "3.4 Install and run offline",
+      "text": "Disconnect and launch: [Disable network connections; provide the launch command or app/control sequence; describe the ready state.]"
+    },
+    {
+      "block": 35,
+      "section": "3.4 Install and run offline",
+      "text": "Run the scenario: [Select languages, start/stop speech input, and identify the expected translated output.]"
+    },
+    {
+      "block": 36,
+      "section": "3.4 Install and run offline",
+      "text": "Reset or troubleshoot: [Restart procedure; common setup issue and remedy; where to find logs.]"
+    },
+    {
+      "block": 37,
+      "section": "4. Self-recorded test results",
+      "text": "4. Self-recorded test results"
+    },
+    {
+      "block": 38,
+      "section": "4. Self-recorded test results",
+      "text": "Results measured and recorded by your team are acceptable. Report measurements from offline runs, supported by raw logs or screenshots. These are team-recorded results, not independently verified results or official judging scores."
+    },
+    {
+      "block": 39,
+      "section": "4. Self-recorded test results",
+      "text": "Test record: [Date; build/device from Section 1 or clearly identified differences; language directions; dataset/source and sample count; relevant test conditions.]Evidence folder: [Accessible URL containing logs/screenshots; use file names or timestamps in the table.]"
+    },
+    {
+      "block": 40,
+      "section": "4. Self-recorded test results",
+      "text": "Use the rows below to report the Brief’s quality and performance areas. Define each measurement and include units. Where a measurement is unavailable, state Not measured and explain the gap; do not substitute estimates for measured results. Add rows only when relevant."
+    },
+    {
+      "block": 41,
+      "row": 0,
+      "section": "4. Self-recorded test results",
+      "cells": [
+        "Area",
+        "Result and method",
+        "Evidence reference"
+      ]
+    },
+    {
+      "block": 41,
+      "row": 1,
+      "section": "4. Self-recorded test results",
+      "cells": [
+        "Translation quality",
+        "[Observed accuracy, clarity, and naturalness; representative input/output examples and failures. If using a score, name the metric, method, and test set.]",
+        "[File / timestamp]"
+      ]
+    },
+    {
+      "block": 41,
+      "row": 2,
+      "section": "4. Self-recorded test results",
+      "cells": [
+        "Inference / response time",
+        "[Value in ms or s; timing start/end points; number of runs and summary statistic. Identify component timing versus end-to-end response.]",
+        "[Log / screenshot]"
+      ]
+    },
+    {
+      "block": 41,
+      "row": 3,
+      "section": "4. Self-recorded test results",
+      "cells": [
+        "Model size",
+        "[MB/GB; models included; distinguish model files from total installation size.]",
+        "[File-size record]"
+      ]
+    },
+    {
+      "block": 41,
+      "row": 4,
+      "section": "4. Self-recorded test results",
+      "cells": [
+        "Peak memory",
+        "[Peak RAM and VRAM where applicable; MB/GB; measurement tool and run conditions.]",
+        "[Log / screenshot]"
+      ]
+    },
+    {
+      "block": 41,
+      "row": 5,
+      "section": "4. Self-recorded test results",
+      "cells": [
+        "Device operation & UX",
+        "[Whether the scenario completed; actual duration; interruptions, user controls, or recovery needed.]",
+        "[Video timestamp / log]"
+      ]
+    },
+    {
+      "block": 42,
+      "section": "4. Self-recorded test results",
+      "text": "Known limitations: [Conditions or language directions that fail, features not yet implemented, and any differences between the demonstrated and packaged build.]"
+    },
+    {
+      "block": 43,
+      "section": "4. Self-recorded test results",
+      "text": "Next development steps: [Up to three concrete improvements before field testing; how each will be checked.]"
+    },
+    {
+      "block": 44,
+      "section": "Before submitting",
+      "text": "Before submitting"
+    },
+    {
+      "block": 45,
+      "section": "Before submitting",
+      "text": "Check that the document, video, package, and results identify the same build; all links open for the judges; the offline package contains the required files; and measured results are traceable to evidence. Submit this document as [TeamName]_Prototype Submission_V3.docx or .pdf, together with the linked materials, through the submission form. Use the form for official contact information and any team membership changes."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "authorization": "User confirmed both EnViT5 and VinAI, PhoWhisper-base; submit jobs without waiting for compile completion",
+  "device": "Samsung Galaxy S24 Ultra",
+  "runtime": "qnn_dlc",
+  "mt_candidates": [
+    {"model": "VietAI/envit5-translation", "revision": "840bc88104d5a4277af740eaedb024df8c3093e7"},
+    {"model": "vinai/vinai-translate-vi2en-v2", "revision": "ae7baa85da07dbe8e23ac26a9f5ef560c17e2138"},
+    {"model": "vinai/vinai-translate-en2vi-v2", "revision": "82f8c91bd22e82085186b45a8a76373f5a79f667"}
+  ],
+  "mt_graphs_per_checkpoint": ["encoder", "decoder-init", "decoder-step"],
+  "mt_export_contract": {
+    "source_tokens": 128,
+    "batch": 1,
+    "decoder_step_input_tokens": 1,
+    "decoder_step_past_tokens": 8,
+    "opset": 17,
+    "purpose": "compile feasibility; fixed graph shapes, not complete autoregressive execution or beam2 parity",
+    "precision": "unquantized source; no calibration or quantized quality claim",
+    "android_ready": false
+  },
+  "asr": {
+    "model": "vinai/PhoWhisper-base",
+    "revision": "7ebdb9e88f5cc5271fb88f4d642c82ff9388650e",
+    "reuse_successful_compile_jobs": ["jp0j2300g", "jp8xm0yqg"],
+    "new_submission": false
+  },
+  "job_ledger_vps": "/home/opc/voxbridge-mt3-20261113/aihub-mt-20261113/jobs.json",
+  "credentials": "Read from existing local AI Hub config; sent once over encrypted SSH stdin into process memory, never persisted on VPS",
+  "qdc_booking": false,
+  "android_asr_final_selection": "Not changed by this compile experiment"
+}

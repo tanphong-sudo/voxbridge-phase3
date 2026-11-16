@@ -1,0 +1,63 @@
+== VoxBridge — REAL-MT Safety Benchmark ==
+Driving the REAL DecisionEngine over the ACTUAL OPUS-MT output (no simulation).
+Source model: Helsinki-NLP/opus-mt-{vi-en,en-vi}. Cases: 43
+
+Per-case detail (real model output -> engine decision -> spoken):
+  [gen1  ] MODEL_TRANSLATION    model='It's a beautiful day.'                  -> 'It's a beautiful day.'
+  [gen2  ] MODEL_TRANSLATION    model='Báo cáo trên bàn của anh.'              -> 'Báo cáo trên bàn của anh.'
+  [gen3  ] MODEL_TRANSLATION    model='Thank you very much.'                   -> 'Thank you very much.'
+  [gen4  ] MODEL_TRANSLATION    model='Chúng ta hãy gặp nhau ở quán bar.'      -> 'Chúng ta hãy gặp nhau ở quán bar.'
+  [ver1  ] VERIFIED_TRANSLATION model-ok         model='Stop conveyor number three.'              spoke='Stop conveyor number three.'
+  [ver2  ] REPAIRED_TRANSLATION model-ok         model='Đừng bắt đầu từ năm.'                     spoke='Đừng bắt đầu từ năm máy số 5.'
+  [ver3  ] VERIFIED_TRANSLATION model-ok         model='Turn off the power.'                      spoke='Turn off the power.'
+  [ver4  ] VERIFIED_TRANSLATION model-ok         model='Mặc đồ bảo hộ.'                           spoke='Mặc đồ bảo hộ.'
+  [ver5  ] VERIFIED_TRANSLATION model-ok         model='Call the manager immediately.'            spoke='Call the manager immediately.'
+  [ver6  ] ASK_REPEAT           caught (refused) model='Phong tỏa khu vực.'                       spoke=(refused)
+  [ver7  ] MODEL_TRANSLATION    model-ok         model='Seat belt.'                               spoke='Seat belt.'
+  [neg1  ] VERIFIED_TRANSLATION model-ok         model='Do not enter the danger zone.'            spoke='Do not enter the danger zone.'
+  [neg2  ] REPAIRED_TRANSLATION model-ok         model='Đừng bắt đầu từ năm.'                     spoke='Đừng bắt đầu từ năm máy số 5.'
+  [neg3  ] VERIFIED_TRANSLATION model-ok         model='Don't open the door.'                     spoke='Don't open the door.'
+  [neg4  ] REPAIRED_TRANSLATION model-ok         model='Không đi vào vùng không.'                 spoke='Không đi vào vùng không khu vực nguy hiểm.'
+  [neg5  ] MODEL_TRANSLATION    model-ok         model='Don't smoke in storage.'                  spoke='Don't smoke in storage.'
+  [neg6  ] MODEL_TRANSLATION    model-ok         model='Không bao giờ đi qua bảo vệ an toàn.'     spoke='Không bao giờ đi qua bảo vệ an toàn.'
+  [haz1  ] VERIFIED_TRANSLATION model-ok         model='Do not enter the danger zone.'            spoke='Do not enter the danger zone.'
+  [haz2  ] ASK_REPEAT           caught (refused) model='Hãy coi chừng hành lý.'                   spoke=(refused)
+  [urg1  ] VERIFIED_TRANSLATION model-ok         model='Get me the manager now.'                  spoke='Get me the manager now.'
+  [urg2  ] ASK_REPEAT           model-ok         model='Chặn lối đi lại ngay lập tức.'            spoke=(refused)
+  [loto1 ] ASK_REPEAT           caught (refused) model='Đã chết trước khi làm việc.'              spoke=(refused)
+  [loto2 ] ASK_REPEAT           model-ok         model='Hanging a warning card.'                  spoke=(refused)
+  [qty1  ] MODEL_TRANSLATION    model-ok         model='Áp lực đến 30 bar.'                       spoke='Áp lực đến 30 bar.'
+  [qty2  ] MODEL_TRANSLATION    model-ok         model='It's two hundred degrees.'                spoke='It's two hundred degrees.'
+  [fp1   ] MODEL_TRANSLATION    model='Làm ơn chuyển mấy cái hộp này lên kệ đi.' -> 'Làm ơn chuyển mấy cái hộp này lên kệ đi.'
+  [fp2   ] MODEL_TRANSLATION    model='Please wait here for a moment.'         -> 'Please wait here for a moment.'
+  [fp3   ] MODEL_TRANSLATION    model='Rửa bàn trước bữa trưa.'                -> 'Rửa bàn trước bữa trưa.'
+  [fp4   ] MODEL_TRANSLATION    model='Bring me this box.'                     -> 'Bring me this box.'
+  [fp5   ] MODEL_TRANSLATION    model='Làm ơn đưa tôi cái đó.'                 -> 'Làm ơn đưa tôi cái đó.'
+  [fp6   ] MODEL_TRANSLATION    model='I use this machine every day.'          -> 'I use this machine every day.'
+  [fp7   ] MODEL_TRANSLATION    model='I use this software every day.'         -> 'I use this software every day.'
+  [loto3 ] ASK_REPEAT           caught (refused) model='Bỏ phần tĩnh mạch trước khi mở tấm ván.'  spoke=(refused)
+  [loto4 ] ASK_REPEAT           model-ok         model='Lock it down before it's fixed.'          spoke=(refused)
+  [act1  ] ASK_REPEAT           model-ok         model='Tắt nguồn chính ngay lập tức.'            spoke=(refused)
+  [act2  ] ASK_REPEAT           model-ok         model='Turn on pump two.'                        spoke=(refused)
+  [neg7  ] MODEL_TRANSLATION    model-ok         model='Đừng đụng vào dây thép gai.'              spoke='Đừng đụng vào dây thép gai.'
+  [haz3  ] MODEL_TRANSLATION    model-ok         model='Watch out for moving elevators.'          spoke='Watch out for moving elevators.'
+  [neg8  ] VERIFIED_TRANSLATION model-ok         model='Don't open the gas valve.'                spoke='Don't open the gas valve.'
+  [neg9  ] VERIFIED_TRANSLATION model-ok         model='Don't start machine four.'                spoke='Don't start machine four.'
+  [rep1  ] ASK_REPEAT           caught (refused) model='Dừng số bảy.'                             spoke=(refused)
+  [rep2  ] ASK_REPEAT           model-ok         model='Khóa số 3.'                               spoke=(refused)
+  [rep3  ] ASK_REPEAT           caught (refused) model='Đừng chạm vào số sáu.'                    spoke=(refused)
+
+Decision distribution:
+  ASK_REPEAT             12
+  MODEL_TRANSLATION      18
+  REPAIRED_TRANSLATION   3
+  VERIFIED_TRANSLATION   10
+
+Headline metrics (over 32 safety-critical commands):
+  Real-model failure rate      : 18.8%  (6/32)  <- the problem is real
+  Model failures CAUGHT by layer: 100.0%  (6/6)  <- the layer's value
+  UNSAFE-PASS rate (target 0)  : 0.0%  (0/32)
+  False-repair count           : 0
+  Safe spoken outputs          : 20/32
+
+== RESULT: real-model-failures=6  caught=6  UNSAFE-PASS=0 ==

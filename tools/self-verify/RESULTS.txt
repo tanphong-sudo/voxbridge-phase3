@@ -1,0 +1,102 @@
+== VoxBridge design self-verification ==
+
+[Decision state machine]
+  PASS  silence -> NO_SPEECH
+  PASS  low audio quality -> ASK_REPEAT
+  PASS  low ASR confidence -> ASK_REPEAT
+  PASS  uncalibrated raw ASR score does not use calibrated 0.60 gate
+  PASS  ordinary sentence -> MODEL_TRANSLATION
+
+[Safety Preservation Layer — verify]
+  PASS  preserved safety slots -> VERIFIED_TRANSLATION
+
+[Safety Preservation Layer — repair, VI->EN]
+  PASS  lost object-id -> REPAIRED (restores 'three'/'3')
+  PASS  lost negation -> REPAIRED (restores 'do not')
+
+[Safety Preservation Layer — refuse unsafe, no fabrication]
+  PASS  inverted action (unrepairable) -> ASK_REPEAT
+
+[SafetyFrame extraction — bilingual, only fires on real slots]
+  PASS  ordinary VI sentence has no safety signal
+  PASS  VI prohibition: negation + hazard zone detected
+  PASS  EN: negation + object-id 5 detected
+
+[Review fixes — alphanumeric id, CHANGED_OBJECT, grammatical repair, demotion]
+  PASS  alphanumeric object-id 'B' extracted
+  PASS  object substitution -> CHANGED_OBJECT
+  PASS  repaired text is grammatical ('conveyor number three')
+  PASS  rejection demotes a trusted example (reversible trust)
+
+[Floor realism — Lockout-Tagout + quantity slots]
+  PASS  LOTO de-energize→energize flip -> ASK_REPEAT
+  PASS  dropped quantity '30 bar' -> ASK_REPEAT
+  PASS  LOST_ACTION: critical verb dropped entirely (verify-dead) -> ASK_REPEAT
+  PASS  LOST_ACTION guard: generic verb (move) dropped, no slot -> MODEL (not refused)
+  PASS  LOST_ACTION: critical verb dropped but object survives -> ASK_REPEAT
+  PASS  đừng (don't) detected as negation on raw VI text
+  PASS  dừng (stop) NOT falsely flagged as negation
+  PASS  chớ (don't) detected as negation on raw VI text
+  PASS  đừng does NOT corrupt the action verb (mở=OPEN, not STOP)
+  PASS  động (motor) does NOT fabricate CLOSE action
+  PASS  cho (give) does NOT fabricate WAIT action
+  PASS  đóng (close) still detected as CLOSE
+  PASS  tắt (turn off) still detected as TURN_OFF
+  PASS  guard inert on stripped input (dung=STOP preserved)
+  PASS  dùng (use) does NOT fabricate STOP action
+  PASS  đúng (correct) does NOT fabricate STOP action
+  PASS  allowlist suppresses unenumerated homograph: 'Tôi sử dụng máy này.' -> no phantom STOP
+  PASS  allowlist suppresses unenumerated homograph: 'Hãy áp dụng quy trình.' -> no phantom STOP
+  PASS  allowlist suppresses unenumerated homograph: 'Chúng ta tận dụng thời gian.' -> no phantom STOP
+  PASS  allowlist suppresses unenumerated homograph: 'Dung dịch này rất tốt.' -> no phantom STOP
+  PASS  mỗi ngày (every day) does NOT fabricate urgency
+  PASS  ngay (immediately) still detected as urgency
+  PASS  ngay cả (even) does NOT fabricate urgency
+  PASS  ngay thẳng (honest) does NOT fabricate urgency
+  PASS  ngay lập tức (immediately) still detected as urgency
+  PASS  tranh (painting) does NOT fabricate negation
+  PASS  tranh tài (compete) does NOT fabricate negation
+  PASS  chảy (flow) does NOT fabricate FIRE hazard
+  PASS  tránh (avoid) still detected as negation
+  PASS  cháy (fire) still detected as FIRE hazard
+  PASS  EN electrical panel detected as object
+  PASS  VI tủ điện detected as ELECTRICAL_PANEL object
+  PASS  dropped electrical panel -> critical violation (not silently spoken)
+  PASS  solar panel does NOT fabricate ELECTRICAL_PANEL
+  PASS  panel of experts does NOT fabricate ELECTRICAL_PANEL
+  PASS  control panel still detected as ELECTRICAL_PANEL
+
+[Local Learning Loop — read path: reuse, trust ladder, safety re-check, fault isolation]
+  PASS  low-risk trusted memory hit -> MEMORY_TRANSLATION
+  PASS  single-approval memory hit is NOT reused (promotion ladder enforced)
+  PASS  safety-trusted memory hit, slots preserved -> MEMORY_TRANSLATION
+  PASS  unsafe memory hit (dropped id) is NOT spoken -> falls through to MT
+  PASS  memory store fault degrades to MT, decide() does not throw
+
+[Local Learning Loop — write path: slot-conflict block, promotion]
+  PASS  correction that drops a negation -> Blocked(slot_conflict)
+  PASS  second approval -> Promote (approvalCount 2, low-risk trusted)
+
+[Multilingual — VI↔ZH / VI↔KO on the SAME canonical engine]
+  PASS  ZH frame: objectId '三号'->3 + conveyor + stop
+  PASS  ZH negation '禁止' + hazard zone detected
+  PASS  KO frame: objectId '3번'->3 + conveyor + stop
+  PASS  ZH->VI flipped negation -> REPAIRED restores 'không' (or ASK_REPEAT)
+  PASS  VI->ZH lost negation -> ASK_REPEAT (repair gated, no fabricated ZH)
+
+[Multilingual regressions — collision & object-id fixes (audit-locked)]
+  PASS  4-digit number not truncated to a phantom id ('2024' -> not '202')
+  PASS  ZH marker keeps full id ('1000号' -> '1000', not '000')
+  PASS  ZH '电话'(phone) does not fabricate POWER object
+  PASS  ZH '部门'(division) does not fabricate DOOR object
+  PASS  KO '질문'(question) does not fabricate DOOR object
+  PASS  ZH '打开阀门' classifies as OPEN (not TURN_ON)
+  PASS  ZH '通电' classifies as ENERGIZE (not TURN_ON)
+
+[Model license credits — CC-BY-4.0 attribution obligation]
+  PASS  credits cover 6 MT hops + VAD (7 components)
+  PASS  attribution required ONLY for tc-big-en-ko (CC-BY-4.0)
+  PASS  about text carries CC-BY-4.0 attribution for tc-big-en-ko
+  PASS  no shipped component has a blank license
+
+== RESULT: 75 passed, 0 failed ==

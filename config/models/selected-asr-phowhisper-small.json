@@ -1,0 +1,26 @@
+{
+  "selected_by_user": "PhoWhisper-small, corrected from base on 2026-11-13",
+  "vietnamese": {
+    "model": "vinai/PhoWhisper-small",
+    "revision": "a86b604c346caf7148c37512eafe783a16420adb",
+    "existing_fp32_export_vps": "/home/opc/exports/speech_to_text/phowhisper-small-onnx",
+    "existing_int8_export_vps": "/home/opc/exports/speech_to_text/phowhisper-small-int8",
+    "int8_provenance_warning": "Existing source.json incorrectly still says float32/lossless shared storage; inspect graph and record actual precision before promotion",
+    "base_results": "historical comparison only; not selected final ASR"
+  },
+  "english": {
+    "model": "openai/whisper-small",
+    "selection_changed": false
+  },
+  "tts": "Piper VI/EN, preloaded, provisional 3 CPU threads",
+  "mt": [
+    "VietAI/envit5-translation",
+    "vinai/vinai-translate-vi2en-v2",
+    "vinai/vinai-translate-en2vi-v2"
+  ],
+  "qdc_status": "await exact-artifact full-pipeline tests and runtime integration",
+  "android_model_switch_completed": true,
+  "android_profile": "vi-en-phosmall",
+  "note": "Default build selects PhoWhisper-small; complete offline MT/QNN runtime package remains separately gated",
+  "precision_policy": "High-fidelity floating QNN first; INT8 is not required and not selected by default. Verify same100WAV quality against FP32 before promotion."
+}

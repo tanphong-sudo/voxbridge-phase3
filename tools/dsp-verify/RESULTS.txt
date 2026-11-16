@@ -1,0 +1,21 @@
+== MelSpectrogram DSP self-verification ==
+
+[Shape & determinism]
+  PASS  output length == 80 * 3000
+  PASS  deterministic: same input -> identical output
+  PASS  all values finite
+
+[Normalization range — Whisper's (x+4)/4 after (max-8) floor]
+  PASS  dynamic range spans exactly 2.0 (the 8 dB floor / 4)
+
+[Silence -> uniform floor]
+  PASS  silence -> all bins == -1.5 (uniform)
+
+[Pad / trim to 30 s]
+  PASS  short input still 80x3000 (zero-padded)
+  PASS  over-long input trimmed, still 80x3000
+
+[Loud vs quiet differ]
+  PASS  a louder tone yields a different spectrogram
+
+== RESULT: 8 passed, 0 failed ==

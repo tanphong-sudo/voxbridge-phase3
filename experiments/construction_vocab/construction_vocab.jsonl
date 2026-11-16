@@ -1,0 +1,30 @@
+{"id":"CV-01","src":"vi","text":"Anh kiểm tra lại giàn giáo tầng ba trước khi cho người lên.","terms":[["scaffold"]]}
+{"id":"CV-02","src":"vi","text":"Chưa được tháo cốp pha, bê tông mới đổ hôm qua.","terms":[["formwork","shuttering","forms"],["concrete"]]}
+{"id":"CV-03","src":"vi","text":"Cẩu tháp đang nâng hàng, mọi người tránh xa khu vực bên dưới.","terms":[["tower crane"]]}
+{"id":"CV-04","src":"vi","text":"Lên cao phải móc dây an toàn vào lan can.","terms":[["harness","safety belt","safety line","lanyard","safety rope"],["railing","guardrail","rail"]]}
+{"id":"CV-05","src":"vi","text":"Cốt thép dầm này thiếu hai thanh, buộc lại cho đủ.","terms":[["rebar","reinforcement","reinforcing","steel bar"],["beam"]]}
+{"id":"CV-06","src":"vi","text":"Ai vào công trường cũng phải đội mũ bảo hộ.","terms":[["hard hat","helmet"]]}
+{"id":"CV-07","src":"vi","text":"Chiều nay đổ bê tông sàn tầng năm.","terms":[["concrete"],["floor","slab"]]}
+{"id":"CV-08","src":"vi","text":"Máy trộn bê tông bị kẹt, tắt điện rồi mới sửa.","terms":[["concrete mixer","mixer"]]}
+{"id":"CV-09","src":"vi","text":"Xe ben đang lùi, đứng xa ra.","terms":[["dump truck","truck","tipper"]]}
+{"id":"CV-10","src":"vi","text":"Máy xúc đào hố móng sâu ba mét.","terms":[["excavator","digger","backhoe"],["foundation"]]}
+{"id":"CV-11","src":"vi","text":"Căng lưới an toàn dưới sàn thao tác ngay.","terms":[["safety net","net"]]}
+{"id":"CV-12","src":"vi","text":"Thang này gãy bậc, đừng dùng nữa.","terms":[["ladder"]]}
+{"id":"CV-13","src":"vi","text":"Hàn xong nhớ đeo kính và tắt bình gas.","terms":[["weld"],["goggles","glasses","mask"]]}
+{"id":"CV-14","src":"vi","text":"Cột trục B bị nứt, báo kỹ sư kết cấu.","terms":[["column","pillar"],["crack"],["structural engineer","engineer"]]}
+{"id":"CV-15","src":"vi","text":"Gió mạnh quá, dừng cẩu và hạ tải xuống.","terms":[["crane"],["load"]]}
+{"id":"CE-01","src":"en","text":"Check the scaffold on level three before anyone climbs it.","terms":[["giàn giáo","dàn giáo","giàn dáo"]]}
+{"id":"CE-02","src":"en","text":"Don't strip the formwork yet, the concrete was poured yesterday.","terms":[["cốp pha","ván khuôn","coppha","cốp-pha"],["bê tông"]]}
+{"id":"CE-03","src":"en","text":"The tower crane is lifting, keep clear of the area below.","terms":[["cẩu tháp","cần trục tháp"]]}
+{"id":"CE-04","src":"en","text":"Clip your harness to the guardrail when you work at height.","terms":[["dây an toàn","dây đai","đai an toàn"],["lan can"]]}
+{"id":"CE-05","src":"en","text":"This beam is missing two rebars, tie them in.","terms":[["cốt thép","thép"],["dầm"]]}
+{"id":"CE-06","src":"en","text":"Everyone on site must wear a hard hat.","terms":[["mũ bảo hộ","nón bảo hộ","mũ cứng"]]}
+{"id":"CE-07","src":"en","text":"We pour the fifth floor slab this afternoon.","terms":[["đổ"],["sàn"]]}
+{"id":"CE-08","src":"en","text":"The concrete mixer is jammed, cut the power before you fix it.","terms":[["máy trộn"]]}
+{"id":"CE-09","src":"en","text":"The dump truck is reversing, stand back.","terms":[["xe ben","xe tải","xe đổ"]]}
+{"id":"CE-10","src":"en","text":"The excavator is digging a three meter foundation pit.","terms":[["máy xúc","máy đào"],["móng"]]}
+{"id":"CE-11","src":"en","text":"Put up the safety net under the working platform now.","terms":[["lưới an toàn","lưới"]]}
+{"id":"CE-12","src":"en","text":"This ladder has a broken rung, stop using it.","terms":[["thang"]]}
+{"id":"CE-13","src":"en","text":"Wear your goggles when you use the jackhammer.","terms":[["kính"],["máy khoan","búa khoan","máy đục","búa"]]}
+{"id":"CE-14","src":"en","text":"Column B is cracked, call the structural engineer.","terms":[["cột"],["nứt"],["kỹ sư kết cấu","kỹ sư"]]}
+{"id":"CE-15","src":"en","text":"The wind is too strong, stop the crane and lower the load.","terms":[["cẩu","cần trục"],["hạ"]]}

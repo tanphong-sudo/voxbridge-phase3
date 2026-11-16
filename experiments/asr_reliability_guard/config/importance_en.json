@@ -1,0 +1,17 @@
+{
+  "provenance": "Hand-curated operational examples from the experiment brief; site glossary empty until supplied by operator.",
+  "lexicons": {
+    "HIGH_ACTION": ["stop", "start", "open", "close", "shut down", "shutdown", "emergency", "hazard", "touch", "enter", "remove", "set", "disconnect"],
+    "HIGH_EQUIPMENT": ["valve", "conveyor", "machine", "pump", "guard", "pressure", "equipment", "motor", "switch"],
+    "CRITICAL_GLOSSARY": [],
+    "CRITICAL_NUMBER": ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred", "thousand", "million", "billion"],
+    "LOW": ["the", "a", "an", "please", "could", "would", "you"]
+  },
+  "patterns": {
+    "CRITICAL_QUANTITY": "(?<![\\w.])[+-]?\\d+(?:[.,]\\d+)?\\s*(?:bar|psi|kpa|mpa|pa|kv|mv|v|ma|a|kw|w|mm|cm|km|m|kg|mg|g|ml|l|hz|rpm|°c|°f|celsius|fahrenheit|percent|%)(?![\\w])",
+    "CRITICAL_ID": "(?<![\\w-])[a-z]+-?\\d+[a-z]?(?![\\w-])",
+    "CRITICAL_NUMBER": "(?<![\\w.])[+-]?\\d+(?:[.,:]\\d+)?(?:\\s?(?:am|pm))?(?!\\w|\\.\\d)"
+  },
+  "token_pattern": "[+-]?\\d+(?:[.,]\\d+)?|[^\\W_]+(?:['’-][^\\W_]+)*|[^\\w\\s]",
+  "priority": ["CRITICAL_NEGATION", "CRITICAL_GLOSSARY", "CRITICAL_QUANTITY", "CRITICAL_ID", "CRITICAL_NUMBER", "HIGH_ACTION", "HIGH_EQUIPMENT", "LOW", "NORMAL"]
+}

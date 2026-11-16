@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoxBridge — rà soát code, bộ nhớ và hiệu suất</title>
+  <style>
+    :root { color-scheme: light; --ink:#172434; --muted:#536376; --line:#dce4e9; --blue:#135b89; --bg:#f5f8fa; --card:#fff; --red:#a12c37; --amber:#905800; --green:#11664e; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1120px; padding:32px 22px 76px; margin:auto; }
+    h1,h2,h3 { line-height:1.24; margin:0 0 12px; }
+    h1 { font-size:2rem; letter-spacing:-.025em; }
+    h2 { font-size:1.42rem; margin-top:38px; border-bottom:2px solid var(--line); padding-bottom:9px; }
+    h3 { font-size:1.06rem; }
+    p { margin:8px 0 12px; }
+    a { color:var(--blue); overflow-wrap:anywhere; }
+    code { font: .91em ui-monospace,SFMono-Regular,Menlo,monospace; background:#eef2f4; padding:1px 4px; border-radius:3px; overflow-wrap:anywhere; }
+    .eyebrow { color:var(--blue); font-size:.78rem; font-weight:750; letter-spacing:.1em; text-transform:uppercase; }
+    .sub { color:var(--muted); max-width:850px; }
+    .note,.decision { padding:14px 17px; border:1px solid var(--line); border-radius:9px; background:var(--card); margin:17px 0; }
+    .decision { border-left:5px solid var(--blue); }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:19px 0; }
+    .metric { padding:14px; border:1px solid var(--line); border-radius:9px; background:var(--card); }
+    .metric strong { display:block; font-size:1.36rem; }
+    .metric small { display:block; color:var(--muted); }
+    .tablewrap { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:9px; }
+    table { border-collapse:collapse; width:100%; min-width:650px; }
+    th,td { padding:10px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:#eaf1f5; font-size:.87rem; }
+    tr:last-child td { border-bottom:0; }
+    .findings { display:grid; gap:12px; }
+    article { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:17px 19px; }
+    article.high { border-left:5px solid var(--red); }
+    article.med { border-left:5px solid var(--amber); }
+    article.low { border-left:5px solid var(--green); }
+    .tag { font-size:.72rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; margin-right:8px; }
+    .high .tag { color:var(--red); } .med .tag { color:var(--amber); } .low .tag { color:var(--green); }
+    .evidence { color:var(--muted); font-size:.88rem; margin-top:3px; }
+    .finding-row { margin:7px 0 0; }
+    .finding-row b { color:#2d4152; }
+    ol,ul { padding-left:22px; }
+    li { margin:5px 0; }
+    .small { color:var(--muted); font-size:.88rem; }
+    @media (max-width:700px) { .grid { grid-template-columns:1fr; } main { padding:22px 13px 50px; } h1 { font-size:1.65rem; } }
+    @media print { body { background:#fff; } article,.metric,.note,.decision { break-inside:avoid; } a { color:inherit; } }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Cập nhật sửa lỗi · 05/10/2026</div>
+  <h1>Trạng thái khắc phục theo thứ tự báo cáo</h1>
+  <div class="decision"><b>Đã triển khai sửa code; chưa nghiệm thu trên điện thoại.</b> Giữ Google ML Kit VI↔EN, PhoWhisper/Whisper và Piper. Bảng dưới phân biệt thay đổi đã kiểm tra trên host với phần cần thiết bị thật. Nội dung audit ngày 01/10 bên dưới được giữ làm lịch sử, không phải mô tả code hiện tại. Không có số RAM/latency/WER điện thoại được suy diễn từ build hoặc unit test.</div>
+  <div class="note"><b>Kết quả kiểm tra cuối — 05/10/2026:</b> 103 test Kotlin/JVM qua (core 64, Android JVM 34, CLI 5); 43 test Python qua (sync/profile 19, bundle 10, Colab 9, migration SQL 4, ONNX/ORT 1). Không failure/error/skipped trong các suite trên. APK debugCpu build thành công, kiểm native library qua; instrumentation đã biên dịch nhưng chưa chạy Android. Lint: <b>0 lỗi, 13 cảnh báo</b> (11 phiên bản dependency mới, 1 ChromeOS/x86 ngoài mục tiêu arm64, 1 khuyến nghị dung lượng). Không tắt lint hay tạo baseline để che lỗi. Chưa đo coverage toàn repo, không tuyên bố đạt 80%.</div>
+  <details class="note"><summary>Lệnh kiểm tra và artifact để đối chiếu</summary>
+    <p><code>JAVA_HOME=/Users/lengoctuyen/.cache/voxbridge/jdk17/Contents/Home ./gradlew :core:test :benchmark-cli:test :android:app:testDebugCpuUnitTest :android:app:assembleDebugCpu :android:app:compileDebugAndroidTestKotlin :android:app:lintDebugCpu -Pkotlin.compiler.execution.strategy=in-process -Pksp.incremental=false --console=plain</code></p>
+    <p><code>python3 -m unittest discover -s tools/dev -p 'test_*.py'</code>; <code>python3 scripts/test_model_bundle.py</code>; <code>python3 scripts/test_colab.py</code>; <code>python3 scripts/test_learning_migration_sql.py</code>.</p>
+    <p>ONNX regression: <code>scripts/test_shared_onnx_weights.py</code>, môi trường Python 3.11 tạm, NumPy 1.26.4 / ONNX 1.17.0 / ORT 1.20.0; chỉ tạo graph nhỏ trong temp, không tải/chạy model người dùng. <code>bash -n</code> các script cài/sync/JVM/DSP và <code>git diff --check</code> đều qua.</p>
+    <p><a href="../android/app/build/outputs/apk/debugCpu/app-debugCpu.apk">APK debugCpu</a>: 204.019.514 byte; SHA-256 <code>72f6ec1d4e97eed0f6d419786b241171ddb1857e2943e280a1ff47f0404fac73</code>. Đây là kích thước APK, không phải PSS/RAM. <a href="../android/app/build/reports/lint-results-debugCpu.html">Báo cáo lint</a>; <a href="../android/app/build/reports/tests/testDebugCpuUnitTest/index.html">Android JVM tests</a>.</p>
+    <p>Giới hạn: asset bundle thực không có trên host nên task mergeCompetitionAssets trả NO-SOURCE cho phần staging; chưa xác minh APK release chứa model thật. ADB không có thiết bị ở lần kiểm tra cuối. Không có commit/push, không xóa model hoặc database người dùng.</p>
+  </details>
+  <div class="tablewrap"><table>
+    <thead><tr><th>ID</th><th>Đã sửa</th><th>Kiểm chứng / giới hạn còn lại</th></tr></thead>
+    <tbody>
+      <tr><td><a href="#f01">A01</a></td><td>Teardown đợi capture hoàn tất; close/reset/run Silero dùng chung khóa, close idempotent. Kiểm cancellation trước phát và dừng audio lần cuối trên lane teardown.</td><td>RuntimeTeardownTest + ResourceScopeTest. Stress mic/đóng màn hình trên thiết bị vẫn cần chạy.</td></tr>
+      <tr><td><a href="#f02">A02</a></td><td>ModelInstaller: staging, kiểm dung lượng, fsync file, validate rồi promote; có backup và khôi phục khi root vắng.</td><td>ModelInstallSafetyTest ép lỗi populate/validate/promote/recovery. Giữ một backup tăng storage; không phải giảm RAM.</td></tr>
+      <tr><td><a href="#f03">A03</a></td><td>ResourceScope quản lý session/tokenizer tạo dở trong Whisper, OPUS cũ và Silero; đóng SessionOptions.</td><td>Test failure injection với Closeable giả. Cần native handle/PSS trên máy thật để xác nhận không leak.</td></tr>
+      <tr><td><a href="#f04">A04</a></td><td>Kiểm shared_weights.bin, kích thước và SHA-256 qua integrity.sha256; bundle/sync cùng định dạng; cache dấu xác thực theo manifest/stat.</td><td>Test file cụt/sai hash/path traversal/thiếu entry. Điện thoại đã cài cần sync lại một lần. Cache stat không phải biện pháp chống kẻ sửa file cố ý giữ metadata.</td></tr>
+      <tr><td><a href="#f05">A05</a></td><td>Buffer primitive có giới hạn; bỏ boxing; không copy khi không cần resample/trim; raw và lastCapture chỉ giữ khi bật capture artifacts.</td><td>StreamingAudioTest kiểm dung lượng, alias read-only, dữ liệu mẫu. Chưa đo peak heap.</td></tr>
+      <tr><td><a href="#f06">A06</a></td><td>VAD chạy theo frame ngay khi thu ở 16 kHz, giữ đúng complete-frame semantics.</td><td>Streaming/batch parity test. Thiết bị trả rate khác vẫn dùng post-resample fallback an toàn; chưa thay bằng resampler streaming.</td></tr>
+      <tr><td><a href="#f07">A07</a></td><td>Thay DFT bằng FFT mixed-radix đúng 400 điểm, tái sử dụng scratch/twiddles.</td><td>RealFft400Test so DFT độc lập; MelSpectrogramParityTest so toàn bộ log-mel với phép tính cũ trên tín hiệu tổng hợp. Không thay cho WER thực hay profile Snapdragon.</td></tr>
+      <tr><td><a href="#f08">A08</a></td><td>TtsEngine/PcmAudio độc lập Piper; chỉ giữ một voice resident; giới hạn đầu vào 2.000 ký tự; AudioTrack dùng buffer streaming cố định.</td><td>Piper vẫn sinh cả câu do API generate trả toàn bộ PCM. Đây là giảm resident/native playback buffer, không phải TTS streaming end-to-end.</td></tr>
+      <tr><td><a href="#f09">A09</a></td><td>Kiểm short-write/lỗi write, retry có deadline, chờ drain; writer sở hữu release và phối hợp stop.</td><td>Test partial/zero/error/cancel writes. Route Bluetooth và phát âm thực cần điện thoại.</td></tr>
+      <tr><td><a href="#f10">A10</a></td><td>debugCpu dùng ORT CPU; loại ABI không hỗ trợ; kiểm cặp JNI/core và APK không chứa libQnn. Nhãn backend CPU trung thực.</td><td>Gradle verifyDebugCpuNativeLibs; các variant khác giữ QNN. Không tuyên bố graph chạy NPU.</td></tr>
+      <tr><td><a href="#f11">A11</a></td><td>Preload/warm-up một ASR lúc setup và đổi chiều; tách coldStart/coldLoadMs/melLatencyMs. Timer latency dùng elapsedRealtime.</td><td>Build và unit tests; cold/warm latency thật cần thiết bị. Đổi chiều có thể chờ load, không giữ đồng thời hai ASR.</td></tr>
+      <tr><td><a href="#f12">A12</a></td><td>CAPTURE_ARTIFACTS mặc định false, kể cả debug; chỉ bật bằng -PvoxbridgeCaptureArtifacts=true. Release luôn false.</td><td>Không ghi WAV/CSV mặc định. Khi chủ động bật chẩn đoán, I/O vẫn gây nhiễu benchmark và phải ghi vào provenance.</td></tr>
+      <tr><td><a href="#f13">A13</a></td><td>AudioRecord được giải phóng trong finally bao trùm validation/start/capture.</td><td>Code review + compile; lỗi driver/recorder cần instrumentation trên máy thật.</td></tr>
+      <tr><td><a href="#f14">C01</a></td><td>Khóa Room ghép text/nguồn/đích; feedback exact query; truy vấn có index, tối đa 256 ứng viên; top-K heap.</td><td>LocalMemoryBoundsTest. Exact cũ vẫn giữ; fuzzy search giới hạn 256 hàng mới nên có thể giảm recall ngoài tập ứng viên.</td></tr>
+      <tr><td><a href="#f15">C02</a></td><td>Room v2 có migration 1→2 bảo toàn hàng, bỏ destructive fallback, xuất schema.</td><td>4 test SQLite host chạy chính SQL migration và so schema Room đều qua. LearningMigrationTest đã biên dịch; chưa chạy Android/SQLCipher thực khi chưa có thiết bị.</td></tr>
+      <tr><td><a href="#f16">C03</a></td><td>VAD nhận slice offset/length và dùng lại framing/context buffer; streaming dùng frame tái sử dụng.</td><td>CaptureSliceTest + StreamingAudioTest. ORT vẫn tạo/đóng tensor mỗi frame theo ownership contract.</td></tr>
+      <tr><td><a href="#f17">C04</a></td><td>SHA-256 remote staging trước promote, file riêng không skip chỉ vì cùng size; nhãn Selected/manifest-checked đúng nghĩa; --verify-full kiểm cả cây skip. Phục hồi backup nếu live tree vắng.</td><td>Python mock-adb regression: corruption, interruption, rollback. Không đánh dấu mô phỏng là test truyền USB thật.</td></tr>
+      <tr><td><a href="#f18">C05</a></td><td>Digest dùng lại trong cùng tiến trình; cache persistent chỉ khi --trust-metadata-cache; --verify-full bỏ cache và hash lại.</td><td>Test cache hit/invalidation/same-size replacement. Mặc định vẫn ưu tiên integrity, không âm thầm đổi sang tin metadata.</td></tr>
+      <tr><td><a href="#f19">C06</a></td><td>Exporter/fetch/bundle dùng staging + backup + rollback thay xóa đích trước.</td><td>Test promote thất bại giữ bản cũ; bundle regression. Backup sau process/power kill trên host được giữ để phục hồi thủ công.</td></tr>
+      <tr><td><a href="#f20">C07</a></td><td>Giải phóng graph nguồn và reference tensor trước round-trip check; chỉ giữ một graph kiểm tra tại một thời điểm.</td><td>Test ONNX nhỏ kiểm dedup và output ORT tương đương. Không có số đo peak RSS exporter model lớn.</td></tr>
+      <tr><td><a href="#f21">C08</a></td><td>CLI đọc CSV streaming đúng quote/comma/newline, escape output; gắn nhãn synthetic rõ trên output và README.</td><td>CsvRowsTest; không dùng số harness này làm inference benchmark.</td></tr>
+      <tr><td><a href="#f22">C09</a></td><td>Sửa ghi chú traceability theo ngày, giữ Task-0 lịch sử; thêm script profile-device.py và quy trình 100 lượt.</td><td><b>Chưa đóng nghiệm thu:</b> không có điện thoại ADB lúc kiểm tra. Chưa có PSS/thermal/pin/latency thực; xem <a href="../docs/testing/device-profiling.md">quy trình</a>.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b>Safety và ZeroTTS:</b> Không thay Piper bằng ZeroTTS trong lượt sửa này. Lỗi ASR làm mất phủ định/nguy cơ trong báo cáo synthetic cũ chưa được chứng minh đã hết; thay ML Kit/FFT hoặc tối ưu RAM không thể tự đóng safety gate. Không nới ngưỡng hay thay kết quả benchmark để báo pass.</div>
+  <p><b>Cài bản sửa:</b> chạy <code>bash tools/dev/install-mlkit-device.sh</code> ở thư mục repo sau khi cắm điện thoại và cho phép USB debugging. Lần này cần sync để tạo integrity manifest mới; không xóa OPUS hoặc dữ liệu học cũ.</p>
+  <h2>Lịch sử audit gốc — 01/10/2026</h2>
+  <div class="eyebrow">Rà soát mã nguồn · 01/10/2026</div>
+  <h1>VoxBridge: lỗi cần sửa, điểm tốn bộ nhớ và hướng tối ưu</h1>
+  <p class="sub">Rà soát tĩnh tại commit <code>b2310c9</code>. Trọng tâm: luồng thu âm → VAD → ASR → dịch → an toàn → TTS trên Android, với thiết bị mục tiêu Qualcomm Snapdragon 8-series. Theo tài liệu dự án, máy tham chiếu là Snapdragon 8 Gen 3 (Galaxy S24-class); Galaxy A12 chỉ là máy người dùng vừa dùng để cài/chạy thử. Đây không phải báo cáo đo RAM/latency trên điện thoại Snapdragon.</p>
+
+  <div class="decision"><b>Kết luận ngắn:</b> Ưu tiên sửa vòng đời native session và cài model an toàn, bỏ các bản sao audio không cần thiết, rồi đo PSS/latency trên máy Snapdragon 8 mục tiêu. ZeroTTS đáng làm nhánh thử nghiệm tiếng Việt trên phần cứng này; chưa thay Piper mặc định khi chưa chứng minh chất lượng, RAM và latency trên chính thiết bị đó. Có NPU Qualcomm không đồng nghĩa code ZeroTTS hiện tại tự chạy trên NPU.</div>
+
+  <div class="grid">
+    <div class="metric"><strong>2,118 MB</strong><small>Dữ liệu chuyển sang máy ở lần sync thành công; là byte lưu trữ/truyền, không phải RAM.</small></div>
+    <div class="metric"><strong>1,534 MB</strong><small>Hai bộ ASR, khoảng 72% tổng dữ liệu trên. Đòn bẩy giảm storage lớn nhất.</small></div>
+    <div class="metric"><strong>162 MB</strong><small>Hai voice Piper cộng lại, khoảng 7,7% tổng dữ liệu; thay TTS không giải quyết phần lớn storage.</small></div>
+  </div>
+  <p class="small">Số byte lấy từ log sync do người dùng cung cấp: PhoWhisper 401.024.027; Whisper Small 1.132.959.239; hai gói dịch 209.520.090 + 209.379.894; hai voice Piper 81.147.388 + 81.191.269; VAD 2.327.524. Kích thước trên đĩa, APK nén và bộ nhớ cư trú PSS/RSS là ba đại lượng khác nhau.</p>
+
+  <div class="note"><b>Phân biệt hai máy:</b> Galaxy A12/SM-A127F trong cuộc trao đổi là máy đã được kết nối và cài app; đó không phải chuẩn đánh giá hiệu năng Qualcomm của dự án. <a href="../submission/phase-2/README.md">Decision spine</a> và <a href="../submission/phase-2/README.md">kế hoạch latency</a> lấy Snapdragon 8 Gen 3 (Galaxy S24-class) làm máy tham chiếu; <a href="../docs/testing/mac-cpu-docx-traceability.md">traceability</a> nêu mục tiêu working set &lt;1,6 GB là kế hoạch, chưa phải số đo. Tên máy/SKU Snapdragon 8 thực tế của người dùng chưa được xác nhận; các đời Gen 2/3/Elite và giới hạn RAM/driver không thể coi như nhau. <a href="https://www.qualcomm.com/smartphones/products/8-series/snapdragon-8-gen-3-mobile-platform">Qualcomm xác nhận Snapdragon 8 Gen 3 có Hexagon NPU</a>, nhưng model chỉ hưởng lợi khi runtime/backend và graph phù hợp.</div>
+
+  <h2 id="pham-vi">Phạm vi và cách đọc</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Khu vực đã đọc</th><th>Đánh giá tập trung</th></tr></thead>
+    <tbody>
+      <tr><td><a href="../android/">android/</a></td><td>Thu/phát audio, Compose/ViewModel, vòng đời ORT/sherpa, đường dẫn/cài model, Room, build variants, instrumented tests.</td></tr>
+      <tr><td><a href="../core/">core/</a></td><td>VAD trimming, truy hồi memory, safety/translation, các unit tests.</td></tr>
+      <tr><td><a href="../model-tools-python/">model-tools-python/</a>, <a href="../tools/">tools/</a>, <a href="../colab/">colab/</a></td><td>Xuất và đồng bộ model, đo kiểm Mac/CLI, notebook đóng gói.</td></tr>
+      <tr><td><a href="../config/">config/</a>, <a href="../docs/">docs/</a>, <a href="../reports/">reports/</a>, <a href="../submission/">submission/</a>, <a href="../testdata/">testdata/</a></td><td>Hợp đồng file model, bằng chứng kiểm thử, tài liệu hướng dẫn và đầu ra nộp.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Đã kiểm kê 269 file theo Git và đọc sâu các đường chạy/công cụ liên quan; báo cáo liệt kê các phát hiện có bằng chứng, không khẳng định đã xác minh hành vi từng dòng trong mọi tài liệu/notebook. Mức <b>Cao</b> = rủi ro hỏng dữ liệu/độ ổn định hoặc tác động lớn; <b>Vừa</b> = chi phí đáng kể/cần chứng minh; <b>Thấp</b> = tính đúng/khả năng bảo trì. Các rủi ro cạnh tranh bộ nhớ được suy ra từ code, <em>chưa xác nhận bằng đo PSS</em>. Không chạy app, benchmark hay tải model trong lần rà soát này; chỉ tạo file báo cáo.</p>
+
+  <h2 id="uu-tien">Thứ tự nên làm</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Thứ tự</th><th>Việc</th><th>Lý do</th><th>Tiêu chí nghiệm thu</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Khóa vòng đời VAD/ORT, cài model theo cơ chế staging + rollback</td><td>Ngăn crash và mất bộ model đang chạy trước khi tối ưu.</td><td>Đóng/mở capture và cập nhật bundle lỗi không làm crash/mất bộ cũ.</td></tr>
+      <tr><td>2</td><td>Bỏ boxing và copy thừa trong capture; truy hồi Room theo truy vấn có giới hạn</td><td>Giảm GC, peak heap và chi phí tăng theo thời gian sử dụng.</td><td>Heap/PSS sau 100 lượt ổn định; output không đổi theo golden tests.</td></tr>
+      <tr><td>3</td><td>Profile trên điện thoại Snapdragon 8 mục tiêu: cold load, peak PSS, latency từng stage</td><td>Chọn đúng nút thắt trước khi đổi model/FFT; tách CPU và QNN.</td><td>Có bảng p50/p95, PSS từng trạng thái và backend thực thi, đo trên cùng APK/dữ liệu.</td></tr>
+      <tr><td>4</td><td>Sau profile mới thử FFT, streaming TTS, rút gọn ASR/model</td><td>Tối ưu hóa thuật toán và thay model đều có rủi ro thay output.</td><td>So sánh paired, giữ quality/safety; đo nhiệt và pin khi dùng dài.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="android">Phát hiện Android và runtime</h2>
+  <div class="findings">
+    <article class="high" id="f01"><h3><span class="tag">Cao · A01</span>Teardown có thể đóng VAD khi capture còn chạy</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/ui/PushToTalkViewModel.kt">PushToTalkViewModel.kt</a>:344–349, 915–927; <a href="../android/app/src/main/java/com/voxbridge/runtime/SileroVad.kt">SileroVad.kt</a>:91–150.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Capture chạy trên <code>Dispatchers.Default</code>; <code>onCleared()</code> chỉ đặt <code>held=false</code> rồi xếp <code>current?.close()</code> lên lane khác. <code>chunkProbability/reset</code> có khóa, <code>close()</code> không có khóa. Chưa thấy bước <code>join</code> capture trước close; có cửa sổ dùng session đã đóng.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Một owner quản lý capture + VAD; đợi capture dừng hoàn toàn rồi mới đóng VAD, hoặc serialize <code>close</code> cùng monitor/lane inference. Thử stress đóng màn hình giữa lúc đang giữ mic.</p>
+    </article>
+    <article class="high" id="f02"><h3><span class="tag">Cao · A02</span>Cập nhật model xóa bản cũ trước khi có bản mới</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/runtime/ModelInstaller.kt">ModelInstaller.kt</a>:45–70, 116–145.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Khi version đổi, <code>paths.root.deleteRecursively()</code> chạy trước giải nén và kiểm tra bundle mới. Lỗi hết dung lượng, thiếu asset hoặc app bị kill có thể khiến bộ đang chạy biến mất.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Giải nén vào thư mục staging cùng filesystem, kiểm file/hash/dung lượng, fsync, rồi đổi tên atomically và giữ bản cũ đến khi hoàn tất. Có rollback và kiểm dung lượng trống trước khi bắt đầu.</p>
+    </article>
+    <article class="high" id="f03"><h3><span class="tag">Cao · A03</span>Nạp một phần ONNX session có thể rò tài nguyên native</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/runtime/WhisperAsr.kt">WhisperAsr.kt</a>:134–177; <a href="../android/app/src/main/java/com/voxbridge/runtime/OnnxTranslator.kt">OnnxTranslator.kt</a>:350–365.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Encoder/decoder session được tạo nối tiếp; nếu decoder, tokenizer hoặc warm-up ném exception, session tạo trước chưa thuộc về object đã return, nên caller không đóng được. Đây là nguy cơ native memory leak ở đường lỗi, chưa được xác nhận bằng đo trên thiết bị Snapdragon mục tiêu.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Dùng scope sở hữu tạm các session và <code>try/finally</code>; chỉ chuyển quyền sở hữu khi khởi tạo thành công. Thêm test ép lỗi ở từng bước nạp và quan sát PSS/handle.</p>
+    </article>
+    <article class="high" id="f04"><h3><span class="tag">Cao · A04</span>Bộ model có thể được báo “ready” dù hỏng hoặc thiếu sidecar</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/runtime/ModelPaths.kt">ModelPaths.kt</a>:75–120; <a href="../config/models/dev-vi-en-phase2.json">dev-vi-en-phase2.json</a>:7–8; <a href="../android/app/src/main/java/com/voxbridge/runtime/ModelInstaller.kt">ModelInstaller.kt</a>:119–145.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> <code>missing()</code> chỉ xét vài filename và bỏ <code>shared_weights.bin</code> của ASR mà manifest dev yêu cầu. Installer bỏ qua file chỉ vì kích thước &gt; 0. File cụt hoặc sai phiên bản có thể đi qua setup rồi hỏng khi tạo ORT session.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Dùng một manifest chung cho app/bundle/sync; kiểm file bắt buộc, kích thước và SHA-256 trước khi công bố ready. Hash một lần khi cài/sync và lưu marker đã xác thực, không hash 2 GB mỗi lần mở app.</p>
+    </article>
+    <article class="med" id="f05"><h3><span class="tag">Vừa · A05</span>Thu mic tạo nhiều bản sao audio và boxing từng sample</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/audio/AudioRecordSource.kt">AudioRecordSource.kt</a>:89–162; <a href="../android/app/src/main/java/com/voxbridge/ui/PushToTalkViewModel.kt">PushToTalkViewModel.kt</a>:193, 395–396.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> <code>ArrayList&lt;Float&gt;</code> chứa tối đa 30 giây mẫu được boxing, rồi <code>toFloatArray()</code>, <code>copyOf()</code> ở 16 kHz và <code>trimToSpeech()</code> tạo thêm mảng. <code>lastCapture</code> giữ cả raw + trimmed sau lượt nói. Điều này tạo GC/peak heap không cần thiết.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Ghi vào buffer primitive <code>ShortArray</code>/<code>FloatArray</code> tăng dung lượng theo block; ở 16 kHz dùng chung buffer read-only thay vì copy; chỉ giữ raw khi debug đang bật và giải phóng <code>lastCapture</code> sau khi không còn dùng. Kiểm alias trước khi bỏ copy.</p>
+    </article>
+    <article class="med" id="f06"><h3><span class="tag">Vừa · A06</span>VAD chạy sau khi thả nút, làm tăng thời gian chờ</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/audio/AudioRecordSource.kt">AudioRecordSource.kt</a>:139–149, 193–204.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Toàn bộ audio được ghi xong mới <code>runVad(asrPcm)</code>. Đây là thiết kế có chủ ý để xử lý thiết bị trả sample rate khác 16 kHz, nhưng post-capture VAD nằm trên đường chờ sau khi nhả mic.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Nếu thiết bị thực trả 16 kHz, đưa từng frame 512 mẫu qua VAD ngay lúc thu; khi không phải 16 kHz, dùng resampler trạng thái theo chunk. Giữ pre-roll/post-roll và so boundary/false-miss với luồng hiện tại trước khi đổi.</p>
+    </article>
+    <article class="med" id="f07"><h3><span class="tag">Vừa · A07</span>Mel spectrogram dùng DFT trực tiếp</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/runtime/MelSpectrogram.kt">MelSpectrogram.kt</a>:92–119.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Với mỗi frame tính 201 tần số × 400 mẫu bằng vòng lặp Kotlin; đoạn 30 giây có thể lên tới khoảng 3000 frame, xấp xỉ 241 triệu lần lặp tích cộng. Chưa có profile trên Snapdragon mục tiêu nên chưa thể kết luận đây là nút thắt số một.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Profile riêng stage mel; nếu đáng kể, đổi sang real FFT/buffer tái sử dụng. Bắt buộc golden test đối chiếu output Mel và WER/câu biên trước khi chấp nhận sai số số học.</p>
+    </article>
+    <article class="med" id="f08"><h3><span class="tag">Vừa · A08</span>TTS và phát âm thanh giữ cả câu trong RAM</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/runtime/PiperTts.kt">PiperTts.kt</a>:54–73, 85–99; <a href="../android/app/src/main/java/com/voxbridge/ui/AudioOut.kt">AudioOut.kt</a>:23–48.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Piper trả <code>FloatArray</code> cả câu, code đổi sang <code>ByteArray</code> PCM, rồi <code>AudioTrack.MODE_STATIC</code> giữ buffer phát. Engine theo từng ngôn ngữ được cache trong map; sau khi đã dùng cả VI/EN thì cả hai có thể cùng resident. <code>AudioOut</code> cũng gắn kiểu phát vào <code>PiperTts.Pcm</code>.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Trước tiên đo PSS khi nạp VI rồi EN. Nếu thư viện hỗ trợ, phát kiểu stream theo chunk với buffer cố định; nếu không, giới hạn độ dài câu và giải phóng engine ít dùng sau idle. Tạo interface <code>TtsEngine</code>/<code>PcmChunk</code> độc lập Piper để thử backend khác mà không sửa UI.</p>
+    </article>
+    <article class="med" id="f09"><h3><span class="tag">Vừa · A09</span>Đường phát không kiểm đầy đủ số byte đã ghi</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/ui/AudioOut.kt">AudioOut.kt</a>:31–48.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Giá trị trả về của <code>track.write</code> bị bỏ qua (có thể ghi thiếu hoặc lỗi); callback marker thay đổi <code>current</code> ngoài khóa của <code>play/stop</code>. Rủi ro phát thiếu hoặc giải phóng đua nhau, cần tái hiện để xác nhận.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Kiểm trạng thái AudioTrack và số byte viết, xử lý write ngắn/lỗi, đồng bộ hóa thay đổi <code>current</code> và bảo đảm release một lần. Test stop/replay nhanh và tai nghe/Bluetooth.</p>
+    </article>
+    <article class="med" id="f10"><h3><span class="tag">Vừa · A10</span>CPU path vẫn mang runtime QNN; ASR bắt buộc CPU</h3>
+      <p class="evidence"><a href="../android/app/build.gradle.kts">build.gradle.kts</a>:125–143; <a href="../android/app/src/main/java/com/voxbridge/runtime/WhisperAsr.kt">WhisperAsr.kt</a>:874–880.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Dependency <code>onnxruntime-android-qnn</code> áp dụng mọi variant dù luồng ASR hiện đặt <code>preferCpu=true</code>. Snapdragon 8 Gen 3 có Hexagon NPU, nhưng APK đang chạy đường ASR CPU và bộ sync hiện gồm ONNX CPU, không có cặp <code>*_ctx.onnx</code> trong log đã gửi. Vì vậy chưa được tính là triển khai NPU. QNN libs trong debugCpu cũng làm APK lớn hơn mà chưa giúp lượt chạy CPU.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Giữ nhánh QNN cho máy Snapdragon, nhưng tách dependency CPU-only/QNN theo variant nếu không phá tương thích native libs. Export/compile graph cho đúng SoC, đưa cặp context binary vào manifest, bật backend qua cấu hình có CPU fallback, xác minh op placement thực ở HTP và so accuracy/latency/PSS trên máy. <a href="https://onnxruntime.ai/docs/execution-providers/QNN-ExecutionProvider.html">ORT QNN EP</a> mô tả đường Android/HTP; hiện tại phải báo rõ CPU-only.</p>
+    </article>
+    <article class="med" id="f11"><h3><span class="tag">Vừa · A11</span>Load/warm-up ASR đầu tiên nằm trên lượt nói đầu</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/runtime/WhisperAsr.kt">WhisperAsr.kt</a>:175–177, 868–880.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> <code>LanguageRoutedAsr</code> chỉ load model khi <code>transcribeDetailed</code> đầu tiên; <code>warmUp</code> xảy ra ngay trong lần load đó. Lượt đầu không phản ánh latency steady-state, và đổi ngôn ngữ lại unload/load.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Báo cold vs warm riêng. Có thể preload một hướng sau setup hoặc trong lúc user chuẩn bị nhấn mic, nhưng chỉ preload cả hai nếu PSS trên thiết bị Snapdragon thật nằm trong ngân sách working set. Đặt chính sách idle unload sau khi đo.</p>
+    </article>
+    <article class="med" id="f12"><h3><span class="tag">Vừa · A12</span>Debug artifacts tranh I/O với inference</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/ui/PushToTalkViewModel.kt">PushToTalkViewModel.kt</a>:418–428; <a href="../android/app/src/main/java/com/voxbridge/audio/AudioDebugStore.kt">AudioDebugStore.kt</a>:21–35, 89–108.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Debug build xuất WAV/CSV đồng thời với ASR, với buffer ghi audio riêng. File bị ghi đè nên không phải leak đĩa vô hạn, nhưng thêm allocation, I/O và nhiễu latency khi đo.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Tắt capture artifact mặc định, bật qua cờ riêng khi chẩn đoán; benchmark trên release-like CPU variant với cùng logging config.</p>
+    </article>
+    <article class="low" id="f13"><h3><span class="tag">Thấp · A13</span>AudioRecord có đường lỗi trước <code>finally</code></h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/audio/AudioRecordSource.kt">AudioRecordSource.kt</a>:75–96.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Sau khi tạo AudioRecord, hai <code>require</code> kiểm cấu hình nằm trước khối <code>try/finally</code> giải phóng recorder. Nếu thiết bị trả trạng thái bất thường, native recorder có thể không được release.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Đưa toàn bộ kiểm cấu hình vào scope <code>try/finally</code> sau khi tạo object; unit test đường lỗi bằng wrapper/fake recorder.</p>
+    </article>
+  </div>
+
+  <h2 id="core-tools">Core, dữ liệu và công cụ</h2>
+  <div class="findings">
+    <article class="high" id="f14"><h3><span class="tag">Cao · C01</span>Memory learning quét toàn bảng và có khóa sai chiều dịch</h3>
+      <p class="evidence"><a href="../core/src/main/kotlin/com/voxbridge/core/learn/LocalMemoryRetriever.kt">LocalMemoryRetriever.kt</a>:33–46; <a href="../android/app/src/main/java/com/voxbridge/store/LearningDb.kt">LearningDb.kt</a>:25–53; <a href="../android/app/src/main/java/com/voxbridge/ui/PushToTalkViewModel.kt">PushToTalkViewModel.kt</a>:803.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Mỗi truy hồi gọi <code>dao.getAll()</code>, map mọi row, token hóa rồi sort toàn bộ; feedback cũng lấy tất cả để tìm một khóa. Càng học nhiều, RAM và thời gian càng tăng. Primary key chỉ là <code>normalizedSource</code>, nên cùng text ở hai chiều có thể ghi đè nhau. Comment nói có ưu tiên độ mới, nhưng công thức score hiện không dùng <code>lastUsedAtMs</code>.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Key ghép <code>(sourceLanguage,targetLanguage,normalizedSource)</code> kèm index; DAO tìm exact key và ứng viên theo cặp ngôn ngữ/giới hạn; xếp hạng top-K trên ứng viên bằng heap thay sort tất cả. Nếu cần recency, thêm trọng số có test hoặc sửa comment. Migration bảo toàn row cũ và test trùng câu VI→EN/EN→VI.</p>
+    </article>
+    <article class="high" id="f15"><h3><span class="tag">Cao · C02</span>Migration Room có thể xóa dữ liệu học</h3>
+      <p class="evidence"><a href="../android/app/src/main/java/com/voxbridge/store/RoomLearningStore.kt">RoomLearningStore.kt</a>:28–39.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> <code>fallbackToDestructiveMigration()</code> nghĩa là schema version mới không có migration sẽ xóa DB học để tạo lại. Không phù hợp dữ liệu người dùng đã duyệt.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Export Room schema, viết migration có kiểm thử dữ liệu trước/sau; chỉ dùng destructive migration cho database tái tạo được, không cho learning store.</p>
+    </article>
+    <article class="med" id="f16"><h3><span class="tag">Vừa · C03</span>VAD phân tích copy từng frame</h3>
+      <p class="evidence"><a href="../core/src/main/kotlin/com/voxbridge/core/audio/CaptureAnalysis.kt">CaptureAnalysis.kt</a>:87–104; <a href="../android/app/src/main/java/com/voxbridge/runtime/SileroVad.kt">SileroVad.kt</a>:94–138.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> <code>copyOfRange</code> tạo mảng 512 sample cho mỗi frame (~938 frame ở 30 giây/16 kHz), sau đó Silero lại tạo mảng framed, context/state và tensor. Tensor input được đóng đúng cách; điểm cần sửa là allocation lặp lại.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Đổi API xác suất sang <code>(samples, offset, length)</code> hoặc dùng frame buffer tái sử dụng, theo điều kiện ORT ownership. So xác suất/biên VAD bitwise hoặc theo dung sai.</p>
+    </article>
+    <article class="med" id="f17"><h3><span class="tag">Vừa · C04</span>“Verified files” của sync chưa phải kiểm toàn bộ byte trên máy</h3>
+      <p class="evidence"><a href="../tools/dev/model_sync.py">model_sync.py</a>:225–239, 303–314, 345–347.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> File riêng kiểm remote bằng kích thước; tree đọc lại marker SHA do host gửi, không hash nội dung remote sau khi giải nén. Dòng <code>Verified files: 775</code> là số entry hợp lệ theo hợp đồng, không chứng minh 775 file trên máy khớp byte-for-byte. Khi cài lần đầu, lệnh đổi tên thư mục cũ vắng mặt có thể in <code>mv: bad ... No such file</code> dù script tiếp tục thành công. Đây không phải kết luận lần sync của người dùng bị lỗi.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Đổi nhãn thành <code>Selected/manifest-checked files</code>, hoặc bổ sung <code>--verify-content</code> tính SHA-256 trên thiết bị cho tệp quan trọng/toàn bộ tree sau push; lưu verification marker chỉ khi hash pass. Kiểm thư mục đích có tồn tại trước bước rename để không in lỗi dự kiến.</p>
+    </article>
+    <article class="med" id="f18"><h3><span class="tag">Vừa · C05</span>Sync lại vẫn băm hết model ở máy Mac</h3>
+      <p class="evidence"><a href="../tools/dev/model_sync.py">model_sync.py</a>:160–173.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Mỗi lần kiểm tree, script đọc và SHA-256 toàn bộ file ở cache (~2,1 GB theo lần sync này), kể cả khi điện thoại không đổi. Lần “skip unchanged” không có nghĩa thao tác host là O(1).</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Cache digest theo manifest + path/size/mtime và invalidation rõ ràng; có chế độ <code>--verify-full</code> khi cần độ chắc chắn cao. Không đổi kiểm integrity mặc định nếu chưa chấp nhận rủi ro cache metadata.</p>
+    </article>
+    <article class="med" id="f19"><h3><span class="tag">Vừa · C06</span>Export/bundle model xóa đích trước khi promote bản mới</h3>
+      <p class="evidence"><a href="../model-tools-python/scripts/fetch_models.py">fetch_models.py</a>:173–177; <a href="../tools/dev/model_bundle.py">model_bundle.py</a>:105–109; <a href="../model-tools-python/scripts/export_opus_mt.py">export_opus_mt.py</a>:62–65.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Các đường xuất/copy model dọn đích hiện có trước khi chuyển staging. Nếu promote thất bại, bộ model local tốt bị mất; đây là chi phí thời gian và dung lượng tải lại, không trực tiếp là leak RAM điện thoại.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Staging cùng filesystem, validate rồi rename đích sang backup → rename staging sang đích → mới xóa backup; rollback nếu bước hai lỗi. Có test giả lập hết dung lượng/đứt giữa chừng.</p>
+    </article>
+    <article class="low" id="f20"><h3><span class="tag">Thấp · C07</span>Export shared ONNX weights có peak RAM cao trên host</h3>
+      <p class="evidence"><a href="../model-tools-python/scripts/share_onnx_weights.py">share_onnx_weights.py</a>:23–53.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Script nạp graph đầy đủ, lưu graph đã externalize rồi nạp lại graph để kiểm round-trip trước khi <code>del</code>; với model lớn có thể cùng giữ nhiều bản weights trong RAM Mac/Colab. Đây là vấn đề build/export, không phải peak RAM APK chạy trên điện thoại.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Tách pha save/check, giải phóng graph và gọi kiểm chứng từng file; cân nhắc so digest tensor streaming. Đo peak RSS của exporter trước/sau.</p>
+    </article>
+    <article class="low" id="f21"><h3><span class="tag">Thấp · C08</span>Benchmark CLI là harness tổng hợp, không phải hiệu năng inference thật</h3>
+      <p class="evidence"><a href="../benchmark-cli/src/main/kotlin/com/voxbridge/benchmark/Main.kt">Main.kt</a>:17–50.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Đầu vào đọc toàn bộ dòng CSV vào RAM và tách bằng <code>split(",")</code>, sai khi field CSV có dấu phẩy/quote. Output dịch trong file là giả lập; không được dùng các số từ harness này làm đo model thật.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Đặt nhãn synthetic harness rõ ở output/README, dùng CSV parser đúng chuẩn và đọc streaming. Benchmark model thật dùng pipeline Mac/Android riêng với log provenance.</p>
+    </article>
+    <article class="low" id="f22"><h3><span class="tag">Thấp · C09</span>Tài liệu/test chưa chứng minh RAM bền trên thiết bị</h3>
+      <p class="evidence"><a href="../docs/testing/mac-cpu-task6-report.md">mac-cpu-task6-report.md</a>:17–20, 57–60; <a href="../docs/testing/mac-cpu-docx-traceability.md">mac-cpu-docx-traceability.md</a>:42; <a href="../android/app/src/main/java/com/voxbridge/runtime/PiperTts.kt">PiperTts.kt</a>:86–90.</p>
+      <p class="finding-row"><b>Khuyết điểm:</b> Báo cáo Mac 1.303 lượt không theo dõi RSS và tại thời điểm đó chưa có kiểm chứng điện thoại. Một traceability doc cũ vẫn ghi thiếu bước chuẩn hóa số trước TTS, trong khi code hiện đã gọi <code>SpokenTextNormalizer</code>; tài liệu và code bị lệch. Các test hiện hữu không thay cho đo thiết bị.</p>
+      <p class="finding-row"><b>Hướng sửa:</b> Cập nhật trạng thái tài liệu theo commit, giữ lịch sử riêng; bổ sung phép đo cold/warm PSS, Java heap/native heap, 100 lượt VI/EN, pin/nhiệt và failure injection trên điện thoại Snapdragon 8 mục tiêu. Có thể dùng A12 làm smoke test tương thích CPU riêng, nhưng không thay số đo Qualcomm. Không chỉnh ngưỡng hiệu năng khi chưa có baseline.</p>
+    </article>
+  </div>
+
+  <h2 id="safety">Một giới hạn quan trọng ngoài hiệu suất</h2>
+  <div class="note"><b>Không thể sửa lỗi an toàn bằng đổi giọng TTS.</b> <a href="../docs/testing/mac-cpu-task6-report.md">Báo cáo Task 6</a>:30–46 ghi 5 output nói không an toàn trong 40 câu safety gắn nhãn tạm thời của holdout tổng hợp; các trường hợp này ASR làm mất/đổi phủ định, mức khẩn cấp hoặc nguy cơ trước khi đến lớp safety. Đây là bằng chứng Mac/synthetic, không phải tỷ lệ lỗi ngoài đời hay trên điện thoại Snapdragon. Nhưng hard safety gate của báo cáo ấy vẫn fail; cần kiểm tra ASR và tín hiệu độc lập, không coi ZeroTTS là biện pháp khắc phục.</div>
+
+  <h2 id="zerotts">ZeroTTS có nên thay Piper?</h2>
+  <p><b>Đánh giá sửa theo thiết bị mục tiêu:</b> ZeroTTS <b>đáng làm proof-of-concept VI trên Snapdragon 8</b>, mạnh hơn nhận định dựa trên A12 trước đó. Tuy nhiên chưa nên thay trực tiếp bản offline hiện tại: tài liệu chính thức công bố 202M tham số, streaming, RTF CPU khoảng 0,5 và time-to-first-audio khoảng 70 ms <em>trên CPU laptop 8 thread</em>; đó không phải số đo điện thoại Snapdragon, cũng không có so sánh Piper trong cùng điều kiện. Chạy trên Snapdragon không tự chuyển graph ZeroTTS sang Hexagon NPU; runtime phát hành chủ yếu dùng ONNX CPU/C++ và cần port/compile/quantize nếu muốn thử QNN. <a href="https://github.com/zeroweight-ai/ZeroTTS">Nguồn: README ZeroTTS</a>, <a href="https://onnxruntime.ai/docs/execution-providers/QNN-ExecutionProvider.html">ORT QNN EP</a>.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tiêu chí</th><th>Piper hiện tại trong VoxBridge</th><th>ZeroTTS theo nguồn chính thức</th><th>Hệ quả cho Snapdragon 8</th></tr></thead>
+    <tbody>
+      <tr><td>Weights</td><td>VI ~81 MB, EN ~81 MB từ log sync.</td><td>ONNX fp32 ~900 MB; <a href="https://huggingface.co/zeroweight-ai/ZeroTTS/tree/main">Hub</a> hiển thị repo ~911 MB.</td><td>Máy cao cấp có thể có dư địa thử, nhưng thay riêng VI vẫn tăng storage khoảng 0,8 GB và có thể tăng PSS; phải giữ EN nếu chưa chứng minh EN đạt yêu cầu. Không suy thẳng storage thành PSS.</td></tr>
+      <tr><td>Giọng/streaming</td><td>Sherpa Piper sinh cả câu rồi mới phát trong code hiện tại.</td><td>API <code>synthesize_stream</code> có chunk; 8 preset; voice encoder tạo embedding từ audio <a href="https://github.com/zeroweight-ai/ZeroTTS#voices--and-voice-cloning">không phát hành</a>.</td><td>Có thể cải thiện TTFA nếu port streaming end-to-end; không có cloning hoàn toàn local từ audio người dùng bằng bản release.</td></tr>
+      <tr><td>Android</td><td>Đã tích hợp AAR và chạy được trên máy của người dùng.</td><td>Repo chính dùng Python/ONNX; có C++/GGUF và browser/WASM, <a href="https://github.com/zeroweight-ai/ZeroTTS/blob/main/cpp/README.md">không có AAR Android drop-in được tài liệu hóa</a>.</td><td>Cần port runtime, tokenizer, codec, preset và thread/config; không phải thay 1 file <code>.onnx</code>.</td></tr>
+      <tr><td>Quantization</td><td>Voice đang dùng dạng hiện có.</td><td>C++ GGUF q8 ~206 MB hoặc q4 ~124 MB <em>chưa tính codec</em>; <a href="https://github.com/zeroweight-ai/ZeroTTS/blob/main/cpp/README.md">C++ README</a> nêu các bản quantized và runtime riêng.</td><td>Có thể giảm storage nhưng chất lượng/latency/PSS trên Snapdragon 8 chưa được đo; q4 không mặc nhiên tương đương fp32.</td></tr>
+      <tr><td>Ngôn ngữ và số đo chất lượng</td><td>VI và EN có voice riêng; đang có safety phrase cache.</td><td>Tập trung tiếng Việt/code-switch; README nêu WER 1,03% trên ZeroBench-TTS so với model khác, không có Piper. Hàm <code>synthesize()</code> không tự chạy chuẩn hóa số/ngày; frontend tiếng Việt không dùng cho văn bản EN.</td><td>Không dùng WER/RTF của repo để khẳng định hơn Piper trong app. Cần test câu công trường, số/đơn vị, phủ định, EN và paired listener review.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Ước lượng storage nếu thay chỉ voice VI 81 MB bằng ONNX ~900 MB: 2.118 − 81 + 900 ≈ 2.937 MB trước phần phụ trợ; đây chỉ là phép cộng byte sơ bộ, không phải dung lượng cài đặt hay RAM đo được. Bản GGUF quantized có codec, native runtime và overhead riêng. Nguồn chất lượng/latency ZeroTTS do tác giả công bố, không phải benchmark của VoxBridge.</p>
+  <div class="note"><b>Nếu muốn thử:</b> Giữ Piper làm fallback. Làm nhánh VI-only với interface TTS chung và phát chunk; trước tiên xác nhận licensing (code/weights MIT; codec được nêu Apache-2.0), nguồn preset hoạt động offline, output dạng PCM phù hợp AudioTrack. Đặt ngưỡng trước khi test: cùng điện thoại Snapdragon 8 mục tiêu và cùng câu VI/EN, offline; đo cold load, peak PSS/RSS, Java/native heap, storage/APK, TTFA p50/p95, RTF, pin/nhiệt sau nhiều lượt, độ rõ số/đơn vị/phủ định và safety phrase. Đo Piper và ZeroTTS ở CPU cùng điều kiện trước; QNN là phép thử bổ sung riêng sau khi xác minh graph chạy thật trên HTP. Chỉ đổi mặc định nếu thắng Piper ở tiêu chí m ưu tiên mà không vượt ngân sách RAM; không chạy phép thử nào trong báo cáo này.</div>
+
+  <h2 id="nguon">Nguồn và giới hạn</h2>
+  <ul>
+    <li>Code VoxBridge: các liên kết file tương đối ở từng phát hiện, commit <code>b2310c9</code>; log đồng bộ model do người dùng cung cấp.</li>
+    <li>ZeroTTS: <a href="https://zeroweight.ai/vi/blog/zero-tts">blog</a>, <a href="https://github.com/zeroweight-ai/ZeroTTS">README/repo chính thức</a>, <a href="https://huggingface.co/zeroweight-ai/ZeroTTS">model card/weights</a>, <a href="https://github.com/zeroweight-ai/ZeroTTS/blob/main/docs/BENCHMARKS.md">phương pháp benchmark</a>, <a href="https://github.com/zeroweight-ai/ZeroTTS/blob/main/docs/BROWSER.md">browser/weights</a>, <a href="https://github.com/zeroweight-ai/ZeroTTS/blob/main/cpp/README.md">C++/GGUF</a>.</li>
+    <li>Thiết bị tham chiếu: <a href="../submission/phase-2/README.md">Snapdragon 8 Gen 3/Galaxy S24-class theo tài liệu nội bộ</a>; <a href="https://www.qualcomm.com/smartphones/products/8-series/snapdragon-8-gen-3-mobile-platform">Qualcomm product page</a>; <a href="https://onnxruntime.ai/docs/execution-providers/QNN-ExecutionProvider.html">ORT QNN EP</a>. Model/driver/đời chip cụ thể của điện thoại đích vẫn cần xác nhận.</li>
+    <li>Kiểm tra tĩnh không chứng minh crash, leak hay tốc độ thực. Chưa chạy test/build/benchmark, chưa có PSS, power hoặc latency đo trên điện thoại Snapdragon mục tiêu ở lần rà soát này. Các test có sẵn trong repo vẫn cần được chạy sau khi sửa code.</li>
+  </ul>
+</main>
+</body>
+</html>

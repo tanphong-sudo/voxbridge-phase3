@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "b2c2006f08c12c6bfeedfeae8005fcb8",
+    "entities": [
+      {
+        "tableName": "learning_examples",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`normalizedSource` TEXT NOT NULL, `approvedTarget` TEXT NOT NULL, `correctedSource` TEXT, `sourceLanguage` TEXT NOT NULL, `targetLanguage` TEXT NOT NULL, `sourceFrameJson` TEXT, `targetFrameJson` TEXT, `feedbackType` TEXT NOT NULL, `approvalCount` INTEGER NOT NULL, `rejectionCount` INTEGER NOT NULL, `lastUsedAtMs` INTEGER NOT NULL, PRIMARY KEY(`normalizedSource`, `sourceLanguage`, `targetLanguage`))",
+        "fields": [
+          {
+            "fieldPath": "normalizedSource",
+            "columnName": "normalizedSource",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "approvedTarget",
+            "columnName": "approvedTarget",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "correctedSource",
+            "columnName": "correctedSource",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceLanguage",
+            "columnName": "sourceLanguage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetLanguage",
+            "columnName": "targetLanguage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceFrameJson",
+            "columnName": "sourceFrameJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "targetFrameJson",
+            "columnName": "targetFrameJson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "feedbackType",
+            "columnName": "feedbackType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "approvalCount",
+            "columnName": "approvalCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rejectionCount",
+            "columnName": "rejectionCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUsedAtMs",
+            "columnName": "lastUsedAtMs",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "normalizedSource",
+            "sourceLanguage",
+            "targetLanguage"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_learning_examples_sourceLanguage_targetLanguage_rejectionCount_lastUsedAtMs",
+            "unique": false,
+            "columnNames": [
+              "sourceLanguage",
+              "targetLanguage",
+              "rejectionCount",
+              "lastUsedAtMs"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_learning_examples_sourceLanguage_targetLanguage_rejectionCount_lastUsedAtMs` ON `${TABLE_NAME}` (`sourceLanguage`, `targetLanguage`, `rejectionCount`, `lastUsedAtMs`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b2c2006f08c12c6bfeedfeae8005fcb8')"
+    ]
+  }
+}

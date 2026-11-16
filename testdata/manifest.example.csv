@@ -1,0 +1,9 @@
+file,source_lang,target_lang,expected_transcript,expected_translation,model_translation,type,asr_text,audio_score,asr_score
+clean/vi_stop_conveyor_3.wav,vi,en,dung bang chuyen so ba,Stop conveyor belt number three.,Stop the conveyor.,clean,dung bang chuyen so ba,0.95,0.90
+noisy/vi_stop_conveyor_3_variant.wav,vi,en,dung bang chuyen so ba,Stop conveyor belt number three.,Stop conveyor belt number three.,noisy,dung bang truyen so ba,0.75,0.70
+clean/vi_do_not_enter_hazard.wav,vi,en,khong vao khu vuc nguy hiem,Do not enter the hazard zone.,Enter the hazard zone.,clean,khong vao khu vuc nguy hiem,0.95,0.92
+clean/vi_forklift_moving.wav,vi,en,xe nang dang di chuyen,The forklift is moving.,The forklift is moving.,clean,xe nang dang di chuyen,0.93,0.90
+clean/vi_weather.wav,vi,en,hom nay troi dep,The weather is nice today.,The weather is nice today.,clean,hom nay troi dep,0.94,0.91
+ambiguous/vi_stop_that.wav,vi,en,dung cai do lai,Stop that.,Stop that.,ambiguous,dung cai do lai,0.90,0.85
+en2vi/en_do_not_start_machine_5.wav,en,vi,Do not start machine five.,Không khởi động máy số năm.,Khởi động máy số năm.,clean,do not start machine five,0.95,0.92
+nonspeech/machine_noise.wav,vi,en,,,,nonspeech,,0.05,0.00

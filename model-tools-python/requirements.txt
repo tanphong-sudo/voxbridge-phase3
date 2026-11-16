@@ -1,0 +1,22 @@
+# Model tooling — Python requirements
+#
+# These pull the model artifacts and export/quantize them to the layout in
+# models/MODEL_MANIFEST.md. They are NOT part of the shipped app (the app is pure Kotlin +
+# native runtimes); Python is build-time tooling only.
+#
+# NOTE: pinned to known-good majors. Re-pin exact patch versions after a first successful run.
+
+huggingface_hub>=0.23,<1.0          # download Silero VAD (Piper voices come from sherpa-onnx GH releases)
+transformers>=4.40,<5.0             # OPUS-MT / Marian tokenizer + model
+optimum[onnxruntime]>=1.20,<2.0     # export Marian seq2seq -> ONNX (encoder/decoder/with-past)
+onnx>=1.16,<2.0
+onnxruntime>=1.18,<2.0              # quantize_dynamic (INT8), graph load/check
+sentencepiece>=0.2,<0.3            # OPUS-MT tokenizer
+sacremoses>=0.1                     # OPUS-MT tokenizer normalisation
+numpy>=1.24,<3.0
+sherpa-onnx>=1.10                   # render the safety-phrase cache with the SAME engine the app uses
+
+# Whisper CPU-fallback export (optional; large):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Qualcomm AI Hub (optional; account required) for the NPU Whisper binary:
+#   pip install qai-hub qai-hub-models

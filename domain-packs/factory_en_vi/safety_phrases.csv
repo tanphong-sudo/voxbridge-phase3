@@ -1,0 +1,9 @@
+phrase_id,vi_surface,intent,action,object_type,object_id,negation,urgency,risk_level,en_template
+SP001,dung may lai,COMMAND,STOP,MACHINE,,false,false,SAFETY_CRITICAL,Stop the machine.
+SP002,dung bang chuyen so ba,COMMAND,STOP,CONVEYOR_BELT,3,false,false,SAFETY_CRITICAL,Stop conveyor belt number three.
+SP003,dung bang chuyen so ba ngay,COMMAND,STOP,CONVEYOR_BELT,3,false,true,SAFETY_CRITICAL,Stop conveyor belt number three immediately.
+SP004,khong vao khu vuc nguy hiem,PROHIBITION,ENTER,HAZARD_ZONE,,true,false,SAFETY_CRITICAL,Do not enter the hazard zone.
+SP005,xe nang dang di chuyen,WARNING,MOVING,FORKLIFT,,false,false,WARNING,The forklift is moving.
+SP006,goi quan ly ngay,REQUEST_HELP,CALL,SUPERVISOR,,false,true,SAFETY_CRITICAL,Call the supervisor immediately.
+SP007,tat nguon dien,COMMAND,TURN_OFF,POWER,,false,false,SAFETY_CRITICAL,Turn off the power.
+SP008,mang do bao ho vao,COMMAND,WEAR,PROTECTIVE_EQUIPMENT,,false,false,WARNING,Wear protective equipment.

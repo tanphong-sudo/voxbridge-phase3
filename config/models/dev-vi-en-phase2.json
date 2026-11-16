@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "profile": "vi-en-phase2",
+  "description": "Final Phase-2 production ASR selection: PhoWhisper Base for Vietnamese + Whisper Small for English, with OPUS VI/EN and Piper VI/EN.",
+  "artifacts": [
+    {"role": "Silero", "path": "vad/silero_vad.onnx", "kind": "file", "expectedBytes": 2327524},
+    {"role": "Vietnamese ASR", "path": "speech_to_text/phowhisper-base-onnx", "kind": "tree", "expectedBytes": null, "requiredFiles": ["encoder_model.onnx", "decoder_model.onnx", "decoder_with_past_model.onnx", "whisper_tokens.json", "mel_80_201.f32.bin", "source.json", "shared_weights.bin"], "anyOfFiles": ["vocab.json", "tokenizer.json"]},
+    {"role": "English ASR", "path": "speech_to_text/whisper-small-onnx", "kind": "tree", "expectedBytes": null, "requiredFiles": ["encoder_model.onnx", "decoder_model.onnx", "decoder_with_past_model.onnx", "whisper_tokens.json", "mel_80_201.f32.bin", "source.json", "shared_weights.bin"], "anyOfFiles": ["vocab.json", "tokenizer.json"]},
+    {"role": "VI→EN", "path": "translation/opus-mt-vi-en", "kind": "tree", "expectedBytes": null, "requiredFiles": ["encoder_model_quantized.onnx", "decoder_model_quantized.onnx", "decoder_with_past_model_quantized.onnx", "source.spm", "target.spm", "vocab.json"]},
+    {"role": "EN→VI", "path": "translation/opus-mt-en-vi", "kind": "tree", "expectedBytes": null, "requiredFiles": ["encoder_model_quantized.onnx", "decoder_model_quantized.onnx", "decoder_with_past_model_quantized.onnx", "source.spm", "target.spm", "vocab.json"]},
+    {"role": "Vietnamese TTS", "path": "text_to_speech/piper/vits-piper-vi_VN-vais1000-medium", "kind": "tree", "expectedBytes": null, "requiredFiles": ["tokens.txt", "MODEL_CARD", "source.json"], "requiredDirs": ["espeak-ng-data"], "requiredGlobs": ["*.onnx"]},
+    {"role": "English TTS", "path": "text_to_speech/piper/vits-piper-en_US-lessac-medium", "kind": "tree", "expectedBytes": null, "requiredFiles": ["tokens.txt"], "requiredDirs": ["espeak-ng-data"], "requiredGlobs": ["*.onnx"]},
+    {"role": "Safety phrase VI repeat", "path": "text_to_speech/cache/ask_repeat_vi.pcm", "kind": "file", "expectedBytes": null},
+    {"role": "Safety phrase VI repeat rate", "path": "text_to_speech/cache/ask_repeat_vi.sr", "kind": "file", "expectedBytes": null},
+    {"role": "Safety phrase EN repeat", "path": "text_to_speech/cache/ask_repeat_en.pcm", "kind": "file", "expectedBytes": null},
+    {"role": "Safety phrase EN repeat rate", "path": "text_to_speech/cache/ask_repeat_en.sr", "kind": "file", "expectedBytes": null},
+    {"role": "Safety phrase VI silence", "path": "text_to_speech/cache/no_speech_vi.pcm", "kind": "file", "expectedBytes": null},
+    {"role": "Safety phrase VI silence rate", "path": "text_to_speech/cache/no_speech_vi.sr", "kind": "file", "expectedBytes": null},
+    {"role": "Safety phrase EN silence", "path": "text_to_speech/cache/no_speech_en.pcm", "kind": "file", "expectedBytes": null},
+    {"role": "Safety phrase EN silence rate", "path": "text_to_speech/cache/no_speech_en.sr", "kind": "file", "expectedBytes": null}
+  ]
+}

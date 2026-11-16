@@ -1,0 +1,31 @@
+== VoxBridge — Logic-only Safety Benchmark ==
+
+Cases: 51  (neural MT simulated per-case to inject failures; oracle independent of engine comparator)
+
+Per-category results  (cat: total, decision-match, unsafe-pass)
+  ACTION_CHANGE  total= 3  match= 3  unsafe=0
+  CLEAN_GENERAL  total= 6  match= 6  unsafe=0
+  CLEAN_SAFETY   total= 6  match= 6  unsafe=0
+  DEICTIC        total= 2  match= 2  unsafe=0
+  GATE           total= 3  match= 3  unsafe=0
+  HAZARD         total= 2  match= 2  unsafe=0
+  KO_PAIR        total= 4  match= 4  unsafe=0
+  LOTO           total= 4  match= 4  unsafe=0
+  NEGATION       total= 5  match= 5  unsafe=0
+  OBJECT_ID      total= 3  match= 3  unsafe=0
+  OBJECT_SUB     total= 2  match= 2  unsafe=0
+  QUANTITY       total= 3  match= 3  unsafe=0
+  URGENCY        total= 2  match= 2  unsafe=0
+  ZH_PAIR        total= 6  match= 6  unsafe=0
+
+Headline metrics
+  Decision-match accuracy      : 100.0%  (51/51)
+  UNSAFE-PASS rate (target 0)  : 0.0%  (0/38 safety-critical)
+  Safety refusals (ASK_REPEAT) : 20
+  Repairs emitted              : 9
+  False-repair rate            : 0.0%  (0/9)
+  Spoken safety outputs        : 20/38
+
+All decisions within expected sets.
+
+== RESULT: UNSAFE-PASS=0  decision-match=100.0% ==

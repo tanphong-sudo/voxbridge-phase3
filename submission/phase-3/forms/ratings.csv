@@ -1,0 +1,1 @@
+run_id,turn_id,rater_id,rating_stage,reference_provenance,meaning_0_to_4,clarity_1_to_5,naturalness_1_to_5,critical_error,critical_slots,output_available,reason,rated_at_iso8601,adjudication_note

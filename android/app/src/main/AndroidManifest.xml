@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  VoxBridge — Android manifest.
+
+  ASR, translation (EnViT5/VinAI on QNN) and TTS run fully on-device. The app declares no
+  network permission.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- onnxruntime-android-qnn's AAR manifest adds these; the app never uses the network. -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
+    <!-- Haptic trust signal: the buzz vocabulary (safe / say-again / hazard) is a co-primary,
+         eyes-free output channel for a worker who can't hear the TTS over machine noise (doc 14 §6).
+         VIBRATE is a normal install-time permission and never touches the network. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:icon="@drawable/ic_voxbridge"
+        android:label="VoxBridge"
+        android:allowBackup="false"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/debug_file_paths" />
+        </provider>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Android 12+: apps must declare vendor public libs. QNN HTP talks to the DSP through
+             libcdsprpc.so; without this the HTP device cannot be created (INVALID_CONFIG). -->
+        <uses-native-library android:name="libcdsprpc.so" android:required="false" />
+    </application>
+</manifest>

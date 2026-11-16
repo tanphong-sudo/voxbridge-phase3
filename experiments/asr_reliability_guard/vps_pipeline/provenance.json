@@ -1,0 +1,63 @@
+{
+  "scope": "Tested VPS CPU functional integration; not an Android/QNN build or device latency result",
+  "server_base_root": "/home/opc/voxbridge-current",
+  "base_archive_sha256": "f720ef58cbfce2c65f087cfb11ab9ab9c6a6287d09bcb80e71f4fca675f69623",
+  "server_base_sha256": {
+    "core/src/main/kotlin/com/voxbridge/core/pipeline/DecisionEngine.kt": "4b9e9015618e789435d44127be9e43643801cd7b3cf1c4569063e92dfc87608d",
+    "core/src/main/kotlin/com/voxbridge/core/pipeline/TranslationDecision.kt": "e42f967e500d60f73410f082cc68c2e169ee6035a5170a8ef83c7acc07cdaaea"
+  },
+  "patched_sha256": {
+    "core/src/main/kotlin/com/voxbridge/core/pipeline/DecisionEngine.kt": "0f5d9bf2bd191469baa7f6035402acfd576daac10740f3a4de3a8f9ce9d7c254",
+    "core/src/main/kotlin/com/voxbridge/core/pipeline/TranslationDecision.kt": "28174724f08975e4910c5a85558861cd0ea07aebe060711b67b7d51c19fd8f22"
+  },
+  "canonical_helpers_sha256": {
+    "core/src/main/kotlin/com/voxbridge/core/pipeline/TentativeOutput.kt": "68681c661abc5da851b3a1d63552a4a86f4f177370c679923da428fd4f76fc88",
+    "core/src/main/kotlin/com/voxbridge/core/pipeline/RejectedCaptureDraft.kt": "5ebd1791c5fba265188dc88a1a1c0d58330fa7a86717274f5983121baef8ccbc"
+  },
+  "tested_artifacts_sha256": {
+    "harness/FullAudioRunner.kt": "d95691a3236d57751903f65b2ec609b1fee64dcb8e9f81c1454a18f15077df1e",
+    "tests/ServerTentativeMergeTest.kt": "f72d6b508c05545438e41115e09ecfd7be8002bd181f4f97be3dd54035fd7751",
+    "compile-vps.py": "909589af7d5c5bce1f30cc32f55ca6b8ccc71c23b469bbd4dd048d0ccfcbd1f1",
+    "launch-vps.py": "ffb983471c8b256122ad85f8f72e91dced0d05ed031f75ceaee973e1a078f485",
+    "score_vps.py": "3d449950e4ecf63b80210ef48fee88ade7f1c36254ae963a4f5eb819594f6041",
+    "test_score_vps.py": "67b95f631a1091be60eb8079c04b6d78739893ccaecbc8a0002b002197cfd6ed",
+    "adapter/PipelineBridge.kt": "0c34aa794950e3a21bbe4f994458ad37c7ab10033443a494cd066674e8834fef",
+    "adapter/PcmFiles.kt": "d469892bfb6282b8e02bcf8ac61ca2b58dced853792720ac7f9dc80a831508fc",
+    "adapter/PipelineBridgeTest.kt": "b1f4f229ee641cbbd934457c15ba95d5513be8e1be188f7b8e8835b80632c0d9",
+    "adapter/parakeet_jsonl_worker.py": "7fb27177baa09e1bb48bf06d57036e10817dab63cf70fd616c81f78541968468",
+    "adapter/test_parakeet_jsonl_worker.py": "134d1bbc8ca9342c56019bda57c7e542003f3d840ac96555ed1a524d9d71a61c"
+  },
+  "monitor_process_sha256": "c6cf2770406bcbc363e5e02800341d18d4fedaf55721de536a5172db9754217a",
+  "run": {
+    "date": "2026-11-15",
+    "coverage": {
+      "expected": 200,
+      "present": 200,
+      "missing": 0
+    },
+    "decisions": {
+      "ModelTranslation": 198,
+      "AskRepeat": 1,
+      "NoSpeech": 1
+    },
+    "runtime_failures": 0,
+    "scorer_issues": 0,
+    "raw_wer_all": 0.06733630952380952,
+    "raw_wer_vi": 0.03676470588235294,
+    "raw_wer_en": 0.08066239316239317,
+    "en_normalized_wer": 0.07067334446299388,
+    "final_all200_chrf": 47.81217627398024,
+    "display_all200_chrf": 47.81217627398024,
+    "display_target_drafts": 0,
+    "draft_source_available": 1,
+    "draft_target_available": 0,
+    "verified_tts_wavs": 200,
+    "translation_wavs": 198,
+    "cached_prompt_wavs": 2,
+    "latency_p50_ms": 6486.782681999999,
+    "latency_p95_ms": 11506.293897,
+    "results_sha256": "77a05c640ce974addb3fd5c8cff937ee63d966daecbac3bb6ebfbf282cd47200",
+    "manifest_sha256": "80687a9505b88283367d0e859e2b51b21ba5ee878ec4d635054afd92da9fcdb6",
+    "scorer_sha256": "3d449950e4ecf63b80210ef48fee88ade7f1c36254ae963a4f5eb819594f6041"
+  }
+}

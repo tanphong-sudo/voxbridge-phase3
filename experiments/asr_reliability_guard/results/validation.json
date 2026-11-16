@@ -1,0 +1,108 @@
+{
+  "date": "2026-11-15",
+  "scope": "Experiment only; no production integration",
+  "python": "3.12.13",
+  "pytest": "9.0.3",
+  "coverage_tool": "7.17.0",
+  "tests": {
+    "passed": 93,
+    "failed": 0,
+    "skipped": 0
+  },
+  "clean_checkout_without_btc": {
+    "passed": 92,
+    "failed": 0,
+    "skipped": 1,
+    "skip_reason": "Optional real BTC frozen evidence not present; full synthetic 100x5-run E2E still executes"
+  },
+  "coverage_with_branches_display_percent": 94,
+  "coverage_required_minimum_percent": 80,
+  "lint": "PASS",
+  "dependency_audit": {
+    "known_vulnerabilities": 0,
+    "hashed_locked_packages": 6,
+    "runtime_third_party_packages": 0
+  },
+  "code_review": "Passed after LOW/NORMAL alignment, critical personalization, confidence granularity, concurrent feedback and portability regressions",
+  "btc": {
+    "app": {
+      "samples": 100,
+      "decisions": {
+        "ACCEPT": 58,
+        "RETRY_ASR": 41,
+        "ASK_REPEAT": 1
+      },
+      "raw_wer": 0.15224534501642936,
+      "normalized_wer": 0.10740122426266
+    },
+    "small_hf": {
+      "samples": 100,
+      "decisions": {
+        "ACCEPT": 58,
+        "RETRY_ASR": 41,
+        "ASK_REPEAT": 1
+      },
+      "raw_wer": 0.1511500547645126,
+      "normalized_wer": 0.10795770728992765
+    },
+    "medium": {
+      "samples": 100,
+      "decisions": {
+        "ACCEPT": 58,
+        "RETRY_ASR": 41,
+        "ASK_REPEAT": 1
+      },
+      "raw_wer": 0.13362541073384446,
+      "normalized_wer": 0.08458542014468559
+    },
+    "turbo": {
+      "samples": 100,
+      "decisions": {
+        "ACCEPT": 58,
+        "RETRY_ASR": 41,
+        "ASK_REPEAT": 1
+      },
+      "raw_wer": 0.13855421686746988,
+      "normalized_wer": 0.09293266555370061
+    },
+    "parakeet": {
+      "samples": 100,
+      "decisions": {
+        "ACCEPT": 58,
+        "RETRY_ASR": 41,
+        "ASK_REPEAT": 1
+      },
+      "raw_wer": 0.4408543263964951,
+      "normalized_wer": 0.07067334446299388
+    }
+  },
+  "btc_wer_unchanged": true,
+  "no_reference_in_live_guard": true,
+  "source_sha256": {
+    "__init__.py": "39367924606486fe7a658d69c37f9934dd4da67f542a9b42742a55b1c2aa17b5",
+    "alignment.py": "01ba04092226a5c1553f0a3e5b6ad5af1cb3e76fa5cf39ee91b442bbeef677ed",
+    "cli.py": "9e4adb1add55a02f813898a2a4a430967dabd4beb2e587e7cf0eed64f194ca58",
+    "config/importance_en.json": "7b2455e9ddcaca57d58ab85fccd4870a973ed4a199b0e17664168151d4e01323",
+    "config/negation_en.json": "d0bbfd7724ffb405cef02c94b83001bd5b3c1dbdb6cf790706e9739a491cb90f",
+    "config/policy.json": "dc128f1477b1c3bf294afb15695ede10cc6944f13c3689d917268bde3e34a698",
+    "detector.py": "b0afb698e9f4317b0cdd899e7db3b86b19231f046efb6235cacd437c382edc95",
+    "evaluate.py": "3855d660fa64fa6092b41945b33946efa94e0c005a8234dd67c7138aacf75de6",
+    "feedback.py": "b17a2a68960ba740535713b8a51ae86fad84bfd6ed61374124883edbc1b076c6",
+    "guard.py": "5c4be302929dd7f92f7957bd4d2ef3d5bcbf32b36abc198453574238af6765fc",
+    "requirements-test.lock": "9f92fca4dc723bd4701da3fd9f1961cc85bec6ec1cda7c585dd55dc328ae8e68",
+    "retry.py": "33685d13c2800bf204b815586486ca3f25cd28e5ea6b6c7729513987a75d5c1b",
+    "scoring.py": "508a524e02c9a59a4d74e2f7632457f4b16adfd679ef0040d00b56d6e96a414e",
+    "tests/test_cli.py": "c8fac6af6f0dbc3a80abb7d8d8aae5ff76a90b8b4220615cf07ac29989b7ff4f",
+    "tests/test_evaluate.py": "ffd40c54371ee04b74e0f7decbb3af94bd064251cb9fc6eda9ecc1e9bed39801",
+    "tests/test_feedback_retry.py": "5c42a0370534243c31f4b9a0b5861443b6bbe3299bca012c83f021d5511a252d",
+    "tests/test_guard.py": "736295ee8ac40416def118f4af07f3c0a556a1dcc6139541bd377fb00c03a7fc",
+    "tests/test_policy_review.py": "724d99927e224bb43bcf5853ba23c32f5ec64bcc8078f578c598c5d2fceb1e5a",
+    "tests/test_scoring.py": "ff760897ea0440f5d4e13c26ad0ce98d8c6009e200213da5b403e2dae558470c"
+  },
+  "limits": [
+    "Prototype thresholds remain uncalibrated",
+    "Guard not integrated with Android pipeline",
+    "Actual omitted critical words may still evade single-pass detection",
+    "No whole-app or acoustic-quality acceptance claim"
+  ]
+}

@@ -1,0 +1,41 @@
+== VoxBridge UI trust-logic verification ==
+
+[trustOf — decision -> traffic light]
+  PASS  VERIFIED -> GREEN
+  PASS  TRANSLATED -> GREEN
+  PASS  MEMORY -> GREEN
+  PASS  REPAIRED -> GREEN
+  PASS  ASK_REPEAT (audio_clipped) -> AMBER
+  PASS  ASK_REPEAT (audio_too_noisy) -> AMBER
+  PASS  ASK_REPEAT (audio_low_quality) -> AMBER
+  PASS  ASK_REPEAT (speech_too_short) -> AMBER
+  PASS  ASK_REPEAT (empty_transcript) -> AMBER
+  PASS  ASK_REPEAT (asr_low_confidence) -> AMBER
+  PASS  ASK_REPEAT (likely_no_speech_hallucination) -> AMBER
+  PASS  ASK_REPEAT (safety_slot_lost:...) -> AMBER
+  PASS  NO_SPEECH -> GREY
+  PASS  blank (idle) -> GREY
+
+[retryGuidance — reason -> physical action]
+  PASS  audio_clipped -> SOFTER
+  PASS  audio_too_noisy -> MIC_CLOSER
+  PASS  audio_low_quality -> MIC_CLOSER
+  PASS  speech_too_short -> SLOWER
+  PASS  asr_low_confidence -> SLOWER
+  PASS  safety_slot_lost -> SLOWER
+  PASS  empty_transcript -> GENERIC
+  PASS  guidance caption is bilingual + non-empty
+
+[containsHazardCue — prohibition/urgency/danger scan]
+  PASS  VI negation 'không vào khu vực nguy hiểm' -> hazard
+  PASS  EN 'do not enter' -> hazard
+  PASS  EN 'STOP the machine immediately' -> hazard
+  PASS  VI 'dừng máy ngay' -> hazard
+  PASS  EN 'high voltage' -> hazard
+  PASS  benign 'bring the box to dock B' -> no hazard
+  PASS  benign VI 'mang hộp đến bến B' -> no hazard
+  PASS  blank -> no hazard
+  PASS  'ngay' fires as a token
+  PASS  substring-only 'ngayonemore' does not fire
+
+================  UI trust-logic: 32 passed, 0 failed  ================

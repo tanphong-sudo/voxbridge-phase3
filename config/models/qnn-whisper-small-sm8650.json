@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "model_id": "whisper_small_quantized",
+  "checkpoint": "openai/whisper-small",
+  "release": "v0.64.0",
+  "precision": "w8a16",
+  "chipset": "qualcomm-snapdragon-8gen3",
+  "soc": "sm8650",
+  "reference_device": "Samsung Galaxy S24 Ultra",
+  "htp": "v75",
+  "runtime": "precompiled_qnn_onnx",
+  "required_ort": "1.30.0",
+  "required_qairt": "2.50.0.260828221209",
+  "archive": {
+    "url": "https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/whisper_small_quantized/releases/v0.64.0/whisper_small_quantized-precompiled_qnn_onnx-w8a16-qualcomm_snapdragon_8gen3.zip",
+    "bytes": 285196969,
+    "sha256": "575cafbe5b366c91dee11fc36e91a24b5fd01b454f119a2dc7174bbb1746023c"
+  },
+  "files": [
+    {
+      "path": "encoder.onnx",
+      "bytes": 12676,
+      "sha256": "fa4ba753f87f60dd59ab822558b6eb2e1813b146db89856a9e7dff4db3b71aeb"
+    },
+    {
+      "path": "encoder.bin",
+      "bytes": 113123776,
+      "sha256": "813d0e847bf1ba21b991a421a2f57f56884252d1ca6e780a02a55582c519bac0"
+    },
+    {
+      "path": "decoder.onnx",
+      "bytes": 39434,
+      "sha256": "f7efbd6e3006ba9800449c92666f5d0a699478cfc4b1a1803173f8d7a38e111d"
+    },
+    {
+      "path": "decoder.bin",
+      "bytes": 225298736,
+      "sha256": "bd853be4710bb0aa01dd2a5ce78c03f3e9f722cab47fad3ac24555995f21a929"
+    },
+    {
+      "path": "metadata.json",
+      "bytes": 43685,
+      "sha256": "1af16d45c192c52c6ace99ed2f3fe0510c490d75188a3566d6fd69f80cfcd198"
+    }
+  ],
+  "status": "profile_candidate",
+  "android_runtime_validated": false
+}

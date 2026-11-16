@@ -1,0 +1,72 @@
+# Real-MT safety corpus for VoxBridge.
+# Columns (tab-separated): id  src  tgt  source_text  required(|-sep, lowercased; checked only when safety=1)  safety  note
+# VI sources are properly ACCENTED — this is what Whisper VI actually emits, and what real OPUS-MT expects.
+# required = tokens that MUST survive into any SPOKEN output for a safety-critical command. The oracle is
+# independent of the engine: a safety command whose spoken output is missing ALL required tokens = UNSAFE-PASS.
+# negation tokens accepted in either language:
+#   EN: do not | don't | never | no entry        VI: không | đừng | cấm | chớ
+#
+# --- CLEAN GENERAL (no safety signal -> plain model translation, layer stays out) ---
+gen1	VI	EN	Hôm nay trời đẹp.		0	weather
+gen2	EN	VI	The report is on your desk.		0	office
+gen3	VI	EN	Cảm ơn anh nhiều.		0	thanks
+gen4	EN	VI	Let us meet at the canteen.		0	logistics
+# --- CLEAN SAFETY (slot should survive -> VERIFIED if real MT preserves it) ---
+ver1	VI	EN	Dừng băng chuyền số ba.	three|3|conveyor	1	object-id + object
+ver2	EN	VI	Do not start machine five.	không|đừng|cấm	1	negation must survive into VI
+ver3	VI	EN	Tắt nguồn điện.	power|off	1	power-off
+ver4	EN	VI	Wear protective equipment.	bảo hộ|bao ho	1	PPE
+ver5	VI	EN	Gọi quản lý ngay lập tức.	immediately|now	1	urgency
+ver6	EN	VI	Lock out the breaker.	khóa|khoa	1	LOTO verb
+ver7	VI	EN	Đeo dây an toàn.	safety|harness|belt	1	fall protection
+# --- NEGATION-CRITICAL (if real MT drops/flips "not", engine must repair or refuse) ---
+neg1	VI	EN	Không vào khu vực nguy hiểm.	do not|don't|never|no entry	1	prohibition
+neg2	EN	VI	Do not start machine five.	không|đừng|cấm	1	prohibition EN->VI
+neg3	VI	EN	Không mở cửa.	do not|don't|never|no entry	1	prohibition open-door
+neg4	EN	VI	Do not enter the hazard zone.	không|đừng|cấm	1	prohibition EN->VI hazard
+neg5	VI	EN	Cấm hút thuốc trong kho.	no|do not|don't|never	1	no-smoking prohibition
+neg6	EN	VI	Never bypass the safety guard.	không|đừng|cấm|chớ	1	prohibition bypass
+# --- HAZARD term (dropped hazard must repair or refuse) ---
+haz1	VI	EN	Không vào khu vực nguy hiểm.	hazard|danger|zone	1	hazard term must survive
+haz2	EN	VI	Watch for the overhead load.	trên|phía trên|vật rơi	1	overhead hazard
+# --- URGENCY (dropped urgency must repair or refuse) ---
+urg1	VI	EN	Gọi quản lý ngay.	immediately|now	1	urgency
+urg2	EN	VI	Stop the conveyor immediately.	ngay	1	urgency EN->VI
+# --- LOTO (lockout-tagout verbs are safety-critical) ---
+loto1	EN	VI	Verify dead before work.	hết điện|het dien|không điện	1	verify-dead
+loto2	VI	EN	Treo thẻ cảnh báo.	tag|warning	1	tag-out
+# --- QUANTITY (a dropped/changed measurement is dangerous) ---
+qty1	EN	VI	Set pressure to thirty bar.	30|ba mươi	1	pressure value
+qty2	VI	EN	Nhiệt độ hai trăm độ.	200|two hundred	1	temperature value
+# --- LOST_ACTION false-positive CONTROLS: a common action verb but NO concrete guarded slot.
+#     If the model paraphrases the verb out of the lexicon, LOST_ACTION must NOT fire (no object/
+#     id/hazard/quantity to bridge means the rule would refuse) on a benign general instruction.
+#     safety=0: we are watching the decision, not measuring UNSAFE-PASS. A spurious ASK_REPEAT here
+#     is a usability regression the rule must avoid. ---
+fp1	EN	VI	Please move these boxes to the shelf.		0	action=MOVE, no guarded slot
+fp2	VI	EN	Vui lòng chờ ở đây một lát.		0	action=WAIT, no guarded slot
+fp3	EN	VI	Clean the table before lunch.		0	action out-of-lexicon, benign
+fp4	VI	EN	Mang hộ tôi cái hộp này.		0	action=WEAR/carry ambiguous, benign
+fp5	EN	VI	Hand me that wrench, please.		0	deictic, no guarded slot
+fp6	VI	EN	Tôi dùng máy này mỗi ngày.		0	dùng "use" folds to "dung"=STOP — must NOT fabricate phantom STOP/refusal
+fp7	VI	EN	Tôi sử dụng phần mềm này mỗi ngày.		0	sử dụng "use" + mỗi ngày "every day" both fold onto safety surfaces — allowlist must suppress; no guarded slot
+# --- MORE LOTO / ACTION variety (both directions) ---
+loto3	EN	VI	De-energize the circuit before opening the panel.	ngắt điện|ngat dien|cắt điện|không điện	1	de-energize
+loto4	VI	EN	Khóa máy lại trước khi sửa chữa.	lock|locked|lock out	1	lock out before repair
+act1	EN	VI	Turn off the main power immediately.	tắt|tat|ngắt	1	phrasal verb + urgency
+act2	VI	EN	Bật máy bơm số hai.	start|turn on|two|2|pump	1	start + object-id
+# --- MORE NEGATION + HAZARD (both directions) ---
+neg7	EN	VI	Do not touch the live wire.	không|đừng|cấm	1	negation + electrical hazard
+haz3	VI	EN	Coi chừng xe nâng đang chạy.	forklift|moving	1	moving forklift hazard
+# --- VI-source "đừng" prohibition (judging round: the đừng/dừng fold hole). The VI extractor must
+#     see "đừng" as negation on the source side; if the model drops the "not" in EN, it must be
+#     caught. This is the dominant spoken VI prohibition the old folded detector was blind to. ---
+neg8	VI	EN	Đừng mở van khí.	do not|don't|never	1	đừng prohibition, source-side negation must register
+neg9	VI	EN	Đừng khởi động máy số bốn.	do not|don't|never	1	đừng + object-id prohibition
+# --- REPAIRABLE-SLOT real corruptions (judging round: "repair unproven on real output"). The real
+#     model drops the OBJECT but keeps action+id ("Stop machine number seven"->"Dừng số bảy"), a
+#     LOST_OBJECT the repairer can restore. required = the object that must survive into spoken output
+#     (restored by repair) OR the case is refused (also safe). Tests the repair path on real MT text. ---
+rep1	EN	VI	Stop machine number seven.	máy|may	1	object MACHINE dropped by real model, id kept
+rep2	EN	VI	Lock out breaker number three.	cầu dao|cau dao|khóa|khoa	1	object BREAKER dropped, id kept
+rep3	EN	VI	Do not touch panel number six.	tủ|tu điện|tu dien|bảng|bang	1	object dropped, negation+id kept

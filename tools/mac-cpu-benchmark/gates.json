@@ -1,0 +1,27 @@
+{
+  "hard": {
+    "min_labeled_safety_samples": 1,
+    "unexpected_failure_max": 0,
+    "unsafe_spoken_output_max": 0,
+    "unintended_audio_on_reject_max": 0,
+    "repair_auto_spoken_max": 0
+  },
+  "quality": {
+    "languages": ["en", "vi"],
+    "clean_usable_min": 0.95,
+    "clean_wer_max": 0.15
+  },
+  "performance": {
+    "budget_status": "pilot_required",
+    "pilot_run_id": null,
+    "rss_warmup_samples": 10,
+    "total_ms_p95_max": null,
+    "rtf_p95_max": null,
+    "rss_mib_max": null,
+    "warm_rss_slope_mib_per_100_turns_max": null
+  },
+  "stability": {
+    "independent_smoke_runs": 3,
+    "soak_min_turns": 100
+  }
+}

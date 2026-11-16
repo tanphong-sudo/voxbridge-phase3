@@ -1,0 +1,14 @@
+== VoxBridge — Safety-Preservation-Layer latency (pure-Kotlin overhead only) ==
+Cases: 43  |  measures extract+compare+repair, EXCLUDES model inference (table lookup).
+This is the layer's added overhead, NOT end-to-end turnaround and NOT the NPU path.
+
+Per-decision wall-clock over the safety corpus (microseconds; min-of-200 per case):
+  mean = 95.4 µs (0.095 ms)
+  p50  = 89.7 µs (0.090 ms)
+  p90  = 130.8 µs (0.131 ms)
+  max  = 227.3 µs (0.227 ms)
+
+doc 06 budget for the layer: < 20 ms (verify-only common case).
+RESULT: worst-case 0.227 ms is well inside the 20 ms layer budget (laptop JVM; on-device TBD Phase 3).
+
+HONEST SCOPE: laptop JVM, SPL overhead only. Not e2e, not RTF, not NPU. Those are Phase-3 device measurements.

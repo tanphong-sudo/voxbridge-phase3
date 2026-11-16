@@ -1,0 +1,39 @@
+{
+  "n": 100,
+  "expected": 200,
+  "complete": false,
+  "failures": [],
+  "decisions": {
+    "ModelTranslation": 99,
+    "AskRepeat": 1
+  },
+  "scope": "Integrated device WAV corpus, synthetic release to first AudioTrack write (acoustic proxy); preparation reported separately. Prompt playback and repair confirmation waits are not translated deadline success. References are frozen AI drafts, not human verified.",
+  "directions": {
+    "vi": {
+      "n": 100,
+      "translated_audio": 99,
+      "under_2s": 99,
+      "under_2s_fraction_all_inputs": 0.99,
+      "first_write_ms": {
+        "p50": 765.604218,
+        "p95": 1076.8329738999996,
+        "max": 1353.847604
+      },
+      "wer_all_inputs_including_skips": 0.03676470588235294,
+      "chrf_spoken_subset": 49.702336471706126
+    },
+    "en": {
+      "n": 0,
+      "translated_audio": 0,
+      "under_2s": 0,
+      "under_2s_fraction_all_inputs": null,
+      "first_write_ms": {
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "wer_all_inputs_including_skips": null,
+      "chrf_spoken_subset": null
+    }
+  }
+}

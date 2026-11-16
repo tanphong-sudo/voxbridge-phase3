@@ -1,0 +1,61 @@
+{
+  "authorization": "User requested all useful remaining AI Hub model tests",
+  "device": "Samsung Galaxy S24 Ultra",
+  "groups": {
+    "mt": [
+      "VietAI/envit5-translation",
+      "vinai/vinai-translate-vi2en-v2",
+      "vinai/vinai-translate-en2vi-v2"
+    ],
+    "asr": [
+      "vinai/PhoWhisper-small"
+    ],
+    "tts": [
+      "Piper vi_VN-vais1000-medium",
+      "Piper en_US-lessac-medium",
+      "VieNeu-TTS-v3-Nano"
+    ],
+    "vad": [
+      "Silero VAD"
+    ]
+  },
+  "tests": [
+    "baseline QNN compile",
+    "baseline NPU profile",
+    "real-input graph inference",
+    "optimized ONNX",
+    "W8A16 calibration and quantization",
+    "W8A16 QNN compile",
+    "W8A16 NPU profile and output comparison",
+    "weight-sharing link and per-graph profile"
+  ],
+  "w8a8_probes": [
+    "envit5/encoder",
+    "vinai-vi2en/encoder",
+    "vinai-en2vi/encoder",
+    "phowhisper-base/encoder",
+    "nano/vector_estimator"
+  ],
+  "diagnostic_probes": [
+    "EnViT5 encoder CPU/GPU fallback",
+    "EnViT5 encoder FP16-representable mask sentinel"
+  ],
+  "blocked_on_qnn": {
+    "Piper VI/EN": "dynamic-output converter signal11 after int32 IO correction",
+    "Silero VAD": "conditional LSTM shape inference"
+  },
+  "promotion_blockers": {
+    "EnViT5 encoder baseline NPU": "large real-input output mismatch; diagnostic jobs pending",
+    "static MT decoder": "past8 is a feasibility probe, not full arbitrary-length beam2 decoding",
+    "Nano": "one static graph shape per component, native Android orchestration not validated"
+  },
+  "existing_english_asr": "Verified existing Whisper Small compile jobs; prior reference profile reused, no final ASR model change",
+  "credentials_persisted_on_vps": false,
+  "qdc_booking": false,
+  "app_model_changed": false,
+  "vps_root": "/home/opc/voxbridge-mt3-20261113",
+  "local_evidence": "output/aihub-selected-20261113/all-tests/",
+  "cloud_results_pending": true,
+  "current_priority": "Snapdragon-compatible high-fidelity floating-point QNN, accuracy and end-to-end speed over compression ratio",
+  "int8_default_selected": false
+}

@@ -1,0 +1,6 @@
+{
+  "provenance": "Hand-curated prototype English lexicon from the experiment brief; not an exhaustive linguistic resource.",
+  "morphological": ["cannot", "can't", "don't", "doesn't", "didn't", "won't", "wouldn't", "shouldn't", "mustn't", "isn't", "aren't", "wasn't", "weren't", "haven't", "hasn't", "hadn't", "couldn't", "needn't", "shan't", "nobody", "nothing", "none", "no-one", "ain't"],
+  "semantic": ["not", "no", "never", "neither", "nor", "nowhere", "without", "no one"],
+  "patterns": ["do not", "must not", "should not", "cannot", "can not", "no longer", "do not enter", "do not open", "never touch"]
+}

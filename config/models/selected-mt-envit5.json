@@ -1,0 +1,58 @@
+{
+  "selection_date": "2026-11-15",
+  "status": "final",
+  "decided_by": "user after QDC comparison",
+  "model_id": "VietAI/envit5-translation",
+  "revision": "840bc88104d5a4277af740eaedb024df8c3093e7",
+  "shared_bidirectional_model": true,
+  "num_beams": 2,
+  "do_sample": false,
+  "source_tokens": 64,
+  "max_new_tokens": 192,
+  "runtime": "QNN HTP FP16 EPContext (QAIRT 2.50), ORT Android QNN 1.29; encoder envit5-stable, decoder envit5",
+  "android_profile": "vi-en-qnn-envit5",
+  "evidence": {
+    "device": "QDC Snapdragon 8 Gen 3 (SM8650)",
+    "date": "2026-11-15",
+    "cases": 200,
+    "same_asr_text_both_candidates": "200/200",
+    "chrf_spoken": {
+      "vi_en": {
+        "envit5": 49.7,
+        "vinai": 49.5,
+        "bootstrap95_diff": [
+          -3.0,
+          3.4
+        ]
+      },
+      "en_vi": {
+        "envit5": 51.2,
+        "vinai": 49.8,
+        "bootstrap95_diff": [
+          -0.6,
+          3.5
+        ]
+      }
+    },
+    "mt_safety_ms_p50": {
+      "vi_en": {
+        "envit5": 245,
+        "vinai": 239
+      },
+      "en_vi": {
+        "envit5": 318,
+        "vinai": 470
+      }
+    },
+    "vinai_spoken_defects": [
+      "VE-0928 gibberish",
+      "VE-9737 'takes' x5",
+      "EV-5890 'không' x4",
+      "EV-6502 'một' x4",
+      "EV-7713 number 900 dropped",
+      "EV-5935 birth date changed"
+    ],
+    "references": "frozen AI drafts, not human verified",
+    "runs": "integrated-qdc-bundle-20261114/device-runs/full200-{envit5,vinai}-nomlkit-20261115 on VPS"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "selection_date": "2026-11-13",
+  "status": "rejected_after_qdc_comparison",
+  "final_selection": "VietAI/envit5-translation (see selected-mt-envit5.json)",
+  "selection_note": "2026-11-13: User requests retaining both VinAI v2 and EnViT5, beam2, and deciding after real-device testing. Do not delete either candidate or treat VinAI as final. 2026-11-15: user chose EnViT5 only after the QDC SM8650 200-case comparison.",
+  "comparison_candidate": {
+    "model_id": "VietAI/envit5-translation",
+    "revision": "840bc88104d5a4277af740eaedb024df8c3093e7",
+    "num_beams": 2,
+    "shared_bidirectional_model": true
+  },
+  "family": "mbart",
+  "num_beams": 2,
+  "do_sample": false,
+  "max_new_tokens": 192,
+  "early_stopping": true,
+  "directions": {
+    "vi-en": {
+      "model_id": "vinai/vinai-translate-vi2en-v2",
+      "revision": "ae7baa85da07dbe8e23ac26a9f5ef560c17e2138",
+      "source_language_code": "vi_VN",
+      "decoder_start_language_code": "en_XX",
+      "parameters": 423199744
+    },
+    "en-vi": {
+      "model_id": "vinai/vinai-translate-en2vi-v2",
+      "revision": "82f8c91bd22e82085186b45a8a76373f5a79f667",
+      "source_language_code": "en_XX",
+      "decoder_start_language_code": "vi_VN",
+      "parameters": 423199744
+    }
+  },
+  "evidence": {
+    "text_samples": 200,
+    "source": "BTC supplied transcripts",
+    "execution": "VPS PyTorch FP32 CPU",
+    "references": "AI drafts/text review; human acceptance pending",
+    "report": "docs/development/mt-round2-decision-2026-11-13.md"
+  },
+  "deployment": {
+    "android_integrated": false,
+    "qualcomm_compiled": false,
+    "qdc": "deferred_by_user",
+    "end_to_end_latency_target_ms": 2000,
+    "snapdragon_end_to_end_latency_ms": null,
+    "snapdragon_peak_pss_bytes": null
+  }
+}

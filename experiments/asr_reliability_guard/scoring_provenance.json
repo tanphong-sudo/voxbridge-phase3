@@ -1,0 +1,13 @@
+{
+  "source_file": "output/phase3/en-asr-20261113/evidence/scoring/score_en.py",
+  "source_file_sha256": "3bb4e287642aa2f2a17bdf0d2b7b7fa9c00ab077a30ff171b88f100e3d030aae",
+  "normalizer_version": "1.0.1",
+  "scope": "Exact unchanged function sources only; no new normalization or scoring rules",
+  "function_source_sha256": {
+    "read_jsonl": "2135ccaa0472f814f21452359c09402d1f3542ff1263611b882a0d753b53e6f4",
+    "raw_words": "f01806a0a050348ac7509e49246647cfe6a2343783f1209f7e37b8083872ee90",
+    "edit_operations": "9fc5c738adc8afb3f0a96b32c6149511b8a74ad09aab46a05c347f30d021f95c",
+    "index_rows": "781a6b0fa40d51ff39f9c5c015fe5791a81eaf9b9667a923232849e63bdf7089",
+    "validate_pair": "7423d275002b29e35491bcea084cbb277c2fbd43626ae64628e4ef3f20682bf9"
+  }
+}

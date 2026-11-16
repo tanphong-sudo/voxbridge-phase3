@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "purpose": "Planning ledger, not completed submission evidence",
+  "registered_team_name": null,
+  "project_name": "VoxBridge",
+  "release": {
+    "release_id": null,
+    "version_name": null,
+    "version_code": null,
+    "source_commit": null,
+    "apk_sha256": null,
+    "model_manifest_sha256": null,
+    "device_id": null
+  },
+  "fields": [
+    {
+      "id": "P3-T014-R01",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T014-R02",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T014-R03",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T014-R04",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T014-R05",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T014-R06",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T014-R07",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T014-R08",
+      "section": "1. Prototype summary",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P016-1",
+      "section": "2. Demo video",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P016-2",
+      "section": "2. Demo video",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P018-1",
+      "section": "2. Demo video",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P021-1",
+      "section": "3.1 Files and access",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P021-2",
+      "section": "3.1 Files and access",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P021-3",
+      "section": "3.1 Files and access",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P023-1",
+      "section": "3.1 Files and access",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P025-1",
+      "section": "3.2 Architecture of the demonstrated solution",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P026-1",
+      "section": "3.2 Architecture of the demonstrated solution",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T029-R01",
+      "section": "3.3 Minimum requirements to run this build",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T029-R02",
+      "section": "3.3 Minimum requirements to run this build",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T029-R03",
+      "section": "3.3 Minimum requirements to run this build",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T029-R04",
+      "section": "3.3 Minimum requirements to run this build",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P032-1",
+      "section": "3.4 Install and run offline",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P033-1",
+      "section": "3.4 Install and run offline",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P034-1",
+      "section": "3.4 Install and run offline",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P035-1",
+      "section": "3.4 Install and run offline",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P036-1",
+      "section": "3.4 Install and run offline",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P039-1",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P039-2",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T041-R01",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T041-R02",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T041-R03",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T041-R04",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-T041-R05",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P042-1",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    },
+    {
+      "id": "P3-P043-1",
+      "section": "4. Self-recorded test results",
+      "plan_status": "written",
+      "evidence_status": "missing",
+      "claim": null,
+      "artifact_ids": []
+    }
+  ],
+  "artifacts": [],
+  "unresolved_decisions": [
+    "registered_team_name",
+    "target_device_and_availability",
+    "Android_deletion_origin",
+    "source_public_requirement",
+    "dataset_redistribution_license",
+    "video_duration_acceptance",
+    "QDC_live_offline_evidence"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model_id": "nvidia/parakeet-tdt-0.6b-v2",
+  "revision": "ae9ad07059c7c739ffaf932226a8fe64ae2620b0",
+  "checkpoint_sha256": "d99e39955c9d3d0350d8fb7c75e40c64a2b2eaeb003883d7c941fd2e8747b28c",
+  "checkpoint_vps": "/home/opc/en-asr-new3-20261113/nemo/parakeet-v2/checkpoint/parakeet-tdt-0.6b-v2.nemo",
+  "language": "en",
+  "selection": "User requested Parakeet v2; use pinned benchmark winner as integration candidate",
+  "cpu_btc100": {
+    "normalized_wer": 0.07067334446299388,
+    "normalized_edits": 127,
+    "reference_words": 1797,
+    "raw_wer": 0.08433734939759036,
+    "scope": "Original checkpoint NeMo CPU; one VAD skip retained in denominator, not QNN/phone quality"
+  },
+  "qnn_status": "encoder phone compile jp1m7r78p running; decoder phone compile jgdm8j8rg successful (QAIRT2.50 FP16 HTP)",
+  "android_status": "Parakeet TDT Java runtime and Kotlin adapter wired into qdcPipeline EN route; CPU full99 decoded without token caps; device validation pending",
+  "text_rewriting": "off",
+  "contextual_word_boosting": "no validated deployment artifact found; do not fabricate weights or enable by assumption",
+  "pre_asr_gain": "excluded by user's earlier pipeline scope; separate ASR research recommends conditional level, not silently enabled here"
+}

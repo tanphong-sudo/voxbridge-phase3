@@ -1,0 +1,28 @@
+VoxBridge FLEURS voiced-audio sample regression — 2026-09-27
+
+Source:
+  google/fleurs test split, en_us + vi_vn
+  5 deterministic short utterances per language (IDs in sample-ids.tsv)
+Runtime:
+  exact Kotlin SileroVad + WhisperAsr through tools/e2e-jvm
+  VI = vinai/PhoWhisper-base
+  EN = openai/whisper-small
+
+Clean sample:
+  VAD: 10/10 clips detected as speech
+  VI: 10 / 67 word errors = 14.93% WER
+  EN:  5 / 49 word errors = 10.20% WER
+  E2E gate: 34 passed, 0 failed
+
+Official DEMAND 0 dB sample:
+  DEMAND Zenodo record 1227121, STRAFFIC_16k.zip, STRAFFIC/ch01.wav
+  Per utterance: noise segment RMS-scaled to speech RMS => measured SNR 0.000 dB
+  VAD: 10/10 mixed clips detected as speech
+  VI: 10 / 67 word errors = 14.93% WER
+  EN:  5 / 49 word errors = 10.20% WER
+  E2E gate: 34 passed, 0 failed
+
+Interpretation:
+  These are small deterministic regression samples, not estimates of full-corpus WER. The equal
+  aggregate clean/noisy WER is an observation on this sample only; individual hypotheses changed.
+  Do not use these host measurements as Android latency, thermal, battery, or QNN evidence.

@@ -1,0 +1,5 @@
+VI total=857 active=0 rate=0.0%
+  examples:
+EN total=647 active=0 rate=0.0%
+  examples:
+RESULT: 1504 FLEURS test rows, false safety activations=0
