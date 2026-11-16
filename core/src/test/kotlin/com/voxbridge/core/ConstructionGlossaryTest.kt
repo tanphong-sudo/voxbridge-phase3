@@ -80,4 +80,10 @@ class ConstructionGlossaryTest {
         ).forEach { assertEquals(it, pin(it)) }
         assertEquals("đổ năm cubic meters bê tông", pin("đổ năm khối bê tông"))
     }
+
+    @Test fun floorMisheardAsTamIsCorrectedOnlyAfterLen() {
+        assertEquals("tower crane đang nâng rebar lên tầng sáu.", pin("cẩu thác đang nâng cốt thép lên tầm sáu."))
+        assertEquals("Khoảng tầm sáu giờ thì xong.", pin("Khoảng tầm sáu giờ thì xong."))
+        assertEquals("Nâng tầm hiểu biết lên.", pin("Nâng tầm hiểu biết lên."))
+    }
 }

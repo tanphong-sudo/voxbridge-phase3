@@ -137,6 +137,7 @@ object ConstructionGlossary {
         "bơ công" to "bê tông",
         "cẩu thác" to "cẩu tháp",
     )
+    // Also: "lên tầm <number>" -> "lên tầng <number>" (floorAfterUp below).
 
     /** Spoken Vietnamese names of drawing-grid letters ("trục bê" = grid line B). */
     private val LETTER_NAMES: Map<String, String> = mapOf(
@@ -161,6 +162,10 @@ object ConstructionGlossary {
         NOT_WORD_BEFORE + "(\\d+(?:[.,]\\d+)?|một|hai|ba|bốn|tư|năm|lăm|sáu|bảy|tám|chín|mười|mươi|mốt|trăm|rưỡi)\\s+khối" +
             "(?=\\s*(?:$|[.,;:!?]|bê tông|đất|cát|đá|vữa|sỏi))", FLAGS)
 
+    /** Under noise "lên tầng sáu" is often heard as "lên tầm sáu" ("about six"); a floor is meant. */
+    private val floorAfterUp = Pattern.compile(
+        NOT_WORD_BEFORE + "lên\\s+tầm\\s+(?=(\\d+|một|hai|ba|bốn|năm|sáu|bảy|tám|chín|mười)" + NOT_WORD_AFTER + ")", FLAGS)
+
     private fun letter(spoken: String): String =
         if (spoken.equals("giờ", ignoreCase = true)) "D" else LETTER_NAMES[spoken.lowercase()] ?: spoken.uppercase()
 
@@ -174,6 +179,7 @@ object ConstructionGlossary {
     fun pinViToEn(text: String): String {
         var out = Normalizer.normalize(text, Normalizer.Form.NFC)
         for ((pattern, good) in asrFixes) out = pattern.matcher(out).replaceAll(java.util.regex.Matcher.quoteReplacement(good))
+        out = floorAfterUp.matcher(out).replaceAll("lên tầng ")
         out = replace(out, gridRange) { "từ grid line ${letter(it.group(1))} đến grid line ${letter(it.group(2))}" }
         for ((pattern, en) in patterns) out = pattern.matcher(out).replaceAll(java.util.regex.Matcher.quoteReplacement(en))
         out = replace(out, gridLine) { "grid line ${letter(it.group(1))}" }

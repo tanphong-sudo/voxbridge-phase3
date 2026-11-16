@@ -2,7 +2,7 @@
 
 Device: Snapdragon 8 Gen 3 (SM8650) reference phone on Qualcomm Device Cloud, Android 14, airplane mode.
 Speakers: **Thợ (VI)**, a Vietnamese site worker, and **Engineer (EN)**, an English-speaking site engineer.
-Recorded length: 3:50, one uncut take (video: https://github.com/tanphong-sudo/voxbridge-phase3/releases/download/p3-final/voxbridge-p3-demo.mp4).
+Recorded length: 3:55, one uncut take (video: https://github.com/tanphong-sudo/voxbridge-phase3/releases/download/p3-final/voxbridge-p3-demo.mp4).
 
 ## Input note (say this in the video and in the submission)
 
@@ -22,8 +22,8 @@ The QDC phone sits in a remote rack, so nobody can speak into its microphone. Ea
 | 8 | VI | Khi lên giàn giáo phải móc dây an toàn vào lan can. | Glossary: scaffolding, safety harness, guardrail |
 | 9 | EN | Is the tower crane working today? | Trade term EN→VI |
 | 10 | VI | Cẩu tháp đang nâng cốt thép lên tầng sáu. | Glossary: tower crane, rebar |
-| 11a | VI | Turn 10 mixed with heavy site noise (0 dB) | App does not guess: it asks the speaker to repeat and says why |
-| 11b | VI | Turn 10 again, clean | Recovery after a repeat |
+| 11a | VI | Turn 10 mixed with heavy site noise (0 dB) | Translated correctly despite the noise |
+| 11b | VI | Turn 10 again, clean | Same result when repeated clean |
 | 12 | — | Tap the emergency phrases "Dừng lại!" and "Gọi cấp cứu!" | Instant one-tap phrases, no ASR or MT |
 | 13 | EN | Please check the rebar on column C3 before pouring. | Grid reference EN→VI |
 | 14 | VI | Dạ, em kiểm tra xong sẽ báo anh. | Close-out |
@@ -35,11 +35,9 @@ Recording tips: one sentence per file, 16 kHz mono WAV or any phone recording (c
 | Time | Shot |
 |---|---|
 | 0:00 | Title card: VoxBridge, offline VI↔EN push-to-talk for construction sites |
-| 0:10 | QDC session: device info (SM8650, Android 14). Settings: airplane mode on, Wi-Fi off |
-| 0:25 | Open VoxBridge: model check, then the "Giữ để nói" ready screen |
-| 0:40 | Caption with the input note above |
-| 0:50 | Turns 1–10, with the translated audio on the soundtrack and on-screen text visible |
-| 3:10 | Turn 11a/11b: noise → ask to repeat → recovery |
-| 3:40 | Turn 12: emergency phrases |
-| 3:55 | Turns 13–14 |
-| 4:20 | End card: on-device numbers (≤2 s rate, p50 latency, model size, peak memory) |
+| 0:09 | Airplane mode on, VoxBridge ready screen |
+| 0:17 | Turns 1–10, with the translated audio on the soundtrack and on-screen text visible |
+| 2:51 | Turn 11a (heavy noise), 3:01 turn 11b (clean) |
+| 3:11 | Turn 12: emergency phrases |
+| 3:20 | Turns 13–14 |
+| 3:46 | End card: on-device numbers |

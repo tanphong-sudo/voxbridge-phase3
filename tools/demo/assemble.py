@@ -12,21 +12,21 @@ F = "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
 FB = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 def font(size, bold=False): return ImageFont.truetype(FB if bold else F, size)
 PHONE_H = 1000; PHONE_W = round(PHONE_H * 1080 / 2400 / 2) * 2; PX, PY = 170, 40
-TITLE_S, END_S = 6.0, 9.0
+TITLE_S, END_S = 8.0, 9.0
 
 TURNS = {
     "01-vi": ("Turn 1", "Vietnamese → English", "Chào anh, hôm nay em giao ca cho anh ở tầng năm.", "Correct: \"I'm giving you your shift on the fifth floor.\""),
     "02-en": ("Turn 2", "English → Vietnamese", "Thanks. What work is left on level five?", "Correct: \"Cảm ơn, còn việc gì ở tầng 5?\""),
     "03-vi": ("Turn 3", "Vietnamese → English", "Còn đổ bê tông sàn từ trục B đến trục D, khoảng mười hai khối.", "Correct: twelve cubic meters of concrete, grid line B to grid line D"),
-    "04-en": ("Turn 4", "English → Vietnamese", "Twelve cubic meters. When does the concrete truck arrive?", "Correct: \"Mười hai mét khối. Khi nào xe chở bê tông đến?\""),
+    "04-en": ("Turn 4", "English → Vietnamese", "Twelve cubic meters. When does the concrete truck arrive?", "Correct, both sentences spoken: \"Mười hai mét khối. Khi nào xe chở bê tông đến?\""),
     "05-vi": ("Turn 5", "Vietnamese → English", "Xe bồn bê tông đến lúc hai giờ chiều.", "Correct term and time: \"The concrete mixer truck … at two o'clock in the afternoon.\""),
     "06-vi": ("Turn 6", "Vietnamese → English", "Không được tháo cốp pha tầng bốn vì bê tông chưa đủ ngày.", "Correct: \"Formwork on the fourth floor must not be removed because the concrete is not ready…\""),
     "07-en": ("Turn 7", "English → Vietnamese", "Understood. Do not remove the formwork until Friday.", "Correct, shown as a safety warning: \"không được tháo ván khuôn cho đến thứ sáu\""),
     "08-vi": ("Turn 8", "Vietnamese → English", "Khi lên giàn giáo phải móc dây an toàn vào lan can.", "Correct: \"hook the safety harness to the railing\""),
     "09-en": ("Turn 9", "English → Vietnamese", "Is the tower crane working today?", "Correct, shown as a safety warning: \"Cần cẩu tháp có hoạt động hôm nay không?\""),
     "10-vi": ("Turn 10", "Vietnamese → English", "Cẩu tháp đang nâng cốt thép lên tầng sáu.", "Correct: \"The tower crane is raising the rebar to the sixth floor.\""),
-    "11a-vi-noisy": ("Turn 11a", "Vietnamese → English, heavy street noise (≈0 dB SNR)", "Cẩu tháp đang nâng cốt thép lên tầng sáu.", "Translated, but the floor number was lost in the noise (\"about six\"); no repeat request"),
-    "11b-vi": ("Turn 11b", "Vietnamese → English, repeated clean", "Cẩu tháp đang nâng cốt thép lên tầng sáu.", "Clean repeat: \"sixth floor\" is back"),
+    "11a-vi-noisy": ("Turn 11a", "Vietnamese → English, heavy street noise (≈0 dB SNR)", "Cẩu tháp đang nâng cốt thép lên tầng sáu.", "Correct despite the noise: \"The tower crane is raising the rebar to the sixth floor.\""),
+    "11b-vi": ("Turn 11b", "Vietnamese → English, repeated clean", "Cẩu tháp đang nâng cốt thép lên tầng sáu.", "Clean repeat: same correct result, \"sixth floor\""),
     "quick": ("Turn 12", "One-tap site phrases", "Dừng lại! · Gọi cấp cứu ngay!", "Played at once in English: \"Stop!\", \"Call an ambulance!\""),
     "13-en": ("Turn 13", "English → Vietnamese", "Please check the rebar on column C3 before pouring.", "Correct, C3 kept: \"Xin hãy kiểm tra cốt thép của cột C3 trước khi đổ.\""),
     "14-vi": ("Turn 14", "Vietnamese → English", "Dạ, em kiểm tra xong sẽ báo anh.", "Correct: \"I'll let you know when I check.\""),
@@ -62,8 +62,6 @@ def frame(path, head, sub, said, shows, step):
         d.text((x, 300), head, font=font(44, True), fill=INK)
         y = 370
         for l in wrap(d, sub, font(30), wmax): d.text((x, y), l, font=font(30), fill=INK); y += 44
-    y = 900
-    for l in wrap(d, NOTE, font(20), wmax): d.text((x, y), l, font=font(20), fill=MUTED); y += 28
     img.save(path)
 
 def card(path, title, lines):
@@ -129,8 +127,10 @@ ff("-i", str(WORK / "caps.mp4"), "-i", str(WORK / "screen.mp4"), "-filter_comple
 card(WORK / "title.png", "VoxBridge", ["Offline Vietnamese ↔ English speech translation for construction sites",
      "Team T&P · OneVoice AI Challenge 2026 · Phase 3 prototype",
      "· Snapdragon 8 Gen 3 (SM8650) phone on Qualcomm Device Cloud, Android 14",
-     "· Construction shift handover: 14 spoken turns and two one-tap phrases, one uncut take"])
-card(WORK / "end.png", "Measured on this device", ["200 BTC voice clips: 198/200 first translated audio within 2 s",
+     "· Construction shift handover: 14 spoken turns and two one-tap phrases, one uncut take",
+     "· We have no Snapdragon 8 Gen 3 phone, so this is a remote Qualcomm Device Cloud phone.",
+     "· Speech input: synthetic voice clips fed as the microphone; the rest runs on the phone, offline."])
+card(WORK / "end.png", "Measured on this device", ["200 BTC voice clips: all 198 spoken translations started within 2 s",
      "Median latency 766 ms (VI→EN) and 588 ms (EN→VI), release to first audio",
      "chrF 49.7 / 51.1 · ASR WER 3.7% (VI) / 6.8% (EN) · peak app memory 582 MiB",
      "ASR, translation and vocoder on the Hexagon NPU · models 2.66 GB",

@@ -14,6 +14,7 @@ CUBIC = re.compile(B + r"(\d+(?:[.,]\d+)?|một|hai|ba|bốn|tư|năm|lăm|sáu|
 def pin(t):
     t = unicodedata.normalize("NFC", t)
     for a, b in FIX: t = re.sub(B + re.escape(a) + A, b, t, flags=F)
+    t = re.sub(B + r"lên\s+tầm\s+(?=(?:\d+|một|hai|ba|bốn|năm|sáu|bảy|tám|chín|mười)" + A + ")", "lên tầng ", t, flags=F)
     t = RANGE.sub(lambda m: f"từ grid line {let(m.group(1))} đến grid line {let(m.group(2))}", t)
     for a, b in G: t = re.sub(B + re.escape(a) + A, b, t, flags=F)
     t = LINE.sub(lambda m: f"grid line {let(m.group(1))}", t)

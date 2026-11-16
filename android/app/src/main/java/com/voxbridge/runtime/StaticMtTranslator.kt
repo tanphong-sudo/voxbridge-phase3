@@ -93,7 +93,7 @@ class StaticMtTranslator(
         val tok=checkNotNull(tokenizer)
         val input=tok.encode(text,sourceLanguage.name.lowercase(),64)
         val output=checkNotNull(engine).decode(input.ids,input.mask,tok.startId(targetLanguage.name.lowercase()),tok.eosId(),false,forcedEos)
-        return TranslationResult(text,tok.decode(output.tokens),sourceLanguage,targetLanguage,"$active QNN FP16 beam2",hitTokenLimit=output.hitTokenLimit)
+        return TranslationResult(text,com.voxbridge.core.translate.MtOutputCleanup.clean(tok.decode(output.tokens)),sourceLanguage,targetLanguage,"$active QNN FP16 beam2",hitTokenLimit=output.hitTokenLimit)
     }
     @Synchronized override fun close(){if(closed)return;closed=true;engine?.close();engine=null;tokenizer=null;active=null}
 }

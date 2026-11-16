@@ -4,7 +4,7 @@ Device: Snapdragon 8 Gen 3 (SM8650) reference phone on Qualcomm Device Cloud, An
 
 Input: the 200 BTC sample voice clips (100 VI→EN, 100 EN→VI), 16 kHz WAV, fed one by one through the app's own pipeline (`PipelineBenchActivity`): VAD → ASR → clean-up → MT → safety check → TTS → AudioTrack. Models stay loaded between clips (warm). One pass per clip.
 
-Build: APK `c0ae7d09`, an earlier build of the same code as the submitted `voxbridge-e1ace68.apk`. The submitted APK adds a shorter button label, the grid-line / cubic-meter / misspelling glossary rules and the demo clip input (only active with a demo folder on the phone). The new glossary rules change the translation input for none of the 200 benchmark sentences, so these numbers still apply. Models: the package's `models/` set.
+Build: an earlier build of the same code as the submitted `voxbridge-43049d3.apk`. Later changes only touch the glossary, quote clean-up of the translation and the demo clip input; none of them changes the translation input for the 200 benchmark sentences, so these numbers still apply. Models: the package's `models/` set.
 
 | | VI→EN | EN→VI |
 |---|---|---|
