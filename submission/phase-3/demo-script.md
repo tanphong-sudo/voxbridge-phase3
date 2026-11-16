@@ -2,7 +2,7 @@
 
 Device: Snapdragon 8 Gen 3 (SM8650) reference phone on Qualcomm Device Cloud, Android 14, airplane mode.
 Speakers: **Thợ (VI)**, a Vietnamese site worker, and **Engineer (EN)**, an English-speaking site engineer.
-Recorded length: 3:55, one uncut take (video: https://github.com/tanphong-sudo/voxbridge-phase3/releases/download/p3-final/voxbridge-p3-demo.mp4).
+Recorded length: 4:35, one uncut take (video: https://github.com/tanphong-sudo/voxbridge-phase3/releases/download/p3-final/voxbridge-p3-demo.mp4).
 
 ## Input note (say this in the video and in the submission)
 
@@ -34,10 +34,10 @@ Recording tips: one sentence per file, 16 kHz mono WAV or any phone recording (c
 
 | Time | Shot |
 |---|---|
-| 0:00 | Title card: VoxBridge, offline VI↔EN push-to-talk for construction sites |
-| 0:09 | Airplane mode on, VoxBridge ready screen |
-| 0:17 | Turns 1–10, with the translated audio on the soundtrack and on-screen text visible |
-| 2:51 | Turn 11a (heavy noise), 3:01 turn 11b (clean) |
-| 3:11 | Turn 12: emergency phrases |
-| 3:20 | Turns 13–14 |
-| 3:46 | End card: on-device numbers |
+| 0:00 | Title card with a spoken team introduction |
+| 0:49 | Airplane mode on, VoxBridge ready screen |
+| 0:57 | Turns 1–10, with the translated audio on the soundtrack and on-screen text visible |
+| 3:31 | Turn 11a (heavy noise), 3:41 turn 11b (clean) |
+| 3:51 | Turn 12: emergency phrases |
+| 4:02 | Turns 13–14 |
+| 4:26 | End card: on-device numbers |

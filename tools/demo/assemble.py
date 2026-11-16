@@ -12,7 +12,8 @@ F = "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
 FB = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 def font(size, bold=False): return ImageFont.truetype(FB if bold else F, size)
 PHONE_H = 1000; PHONE_W = round(PHONE_H * 1080 / 2400 / 2) * 2; PX, PY = 170, 40
-TITLE_S, END_S = 8.0, 9.0
+TITLE_S, END_S = 48.0, 9.0
+INTRO_VOICE = Path(__file__).with_name("intro-voice.m4a")  # spoken introduction over the title card
 
 TURNS = {
     "01-vi": ("Turn 1", "Vietnamese → English", "Chào anh, hôm nay em giao ca cho anh ở tầng năm.", "Correct: \"I'm giving you your shift on the fifth floor.\""),
@@ -150,6 +151,9 @@ def place(path, t_ms, gain, cut=False):
     stop = next((a for a in ACTIONS if a > t_ms + 50), None) if cut else None
     trim = f"atrim=0:{(stop - t_ms) / 1000:.3f}," if stop else ""
     filters.append(f"[{k}]{trim}aresample=48000,aformat=channel_layouts=stereo,volume={gain},adelay={delay}|{delay}[a{k}]")
+if INTRO_VOICE.exists():
+    k = len(inputs) // 2; inputs.extend(["-i", str(INTRO_VOICE)])
+    filters.append(f"[{k}]atrim=start=0.4,asetpts=PTS-STARTPTS,atempo=1.15,loudnorm=I=-16:TP=-1.5,aresample=48000,aformat=channel_layouts=stereo,adelay=300|300[a{k}]")
 for name, t in clip_at.items(): place(CLIPS / f"{name}.wav", t, 0.8)
 for t, p in outs: place(p, t, 1.0, cut=True)
 total = TITLE_S + (end_ms - T0) / 1000 + END_S

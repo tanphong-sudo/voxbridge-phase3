@@ -33,7 +33,7 @@ Model files 2.66 GB, APK 138 MB.
 
 ## Demo video
 
-[voxbridge-p3-demo.mp4](https://github.com/tanphong-sudo/voxbridge-phase3/releases/download/p3-final/voxbridge-p3-demo.mp4) (3:55, one uncut take on the Snapdragon 8 Gen 3 device in airplane mode). Our team does not own a Snapdragon 8 Gen 3 phone, so we used a remote Qualcomm Device Cloud phone; it sits in a server rack, so speech input is synthetic voice clips fed as its microphone; everything after the button release runs on the phone. Script: [demo-script.md](submission/phase-3/demo-script.md).
+[voxbridge-p3-demo.mp4](https://github.com/tanphong-sudo/voxbridge-phase3/releases/download/p3-final/voxbridge-p3-demo.mp4) (4:35, short team introduction, then one uncut take on the Snapdragon 8 Gen 3 device in airplane mode). Our team does not own a Snapdragon 8 Gen 3 phone, so we used a remote Qualcomm Device Cloud phone; it sits in a server rack, so speech input is synthetic voice clips fed as its microphone; everything after the button release runs on the phone. Script: [demo-script.md](submission/phase-3/demo-script.md).
 
 ## Install the offline package
 
